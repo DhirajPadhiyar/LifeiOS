@@ -1,0 +1,17 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LifeiOS.Models
+{
+    public class TaskItem
+    {
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(150)]
+        public string Title { get; set; } = string.Empty;
+        [MaxLength(500)]
+        public string? Description { get; set; }
+        public bool IsCompleted { get; set; }=false;
+        public DateTime? DueDate { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+    }
+}
