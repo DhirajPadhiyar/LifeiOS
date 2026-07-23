@@ -1,0 +1,73 @@
+﻿@using LifeiOS.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+@if (User.Identity!.IsAuthenticated)
+{
+    <a asp-controller="Profile"
+       asp-action="Index">
+        My Profile
+    </a>
+}
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+}
+<nav class="navbar">
+
+    <div class="navbar-left">
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="navbar-logo">
+
+            <i class="bi bi-grid-1x2-fill"></i>
+
+            <span>LifeOS</span>
+
+        </a>
+
+    </div>
+
+    <div class="navbar-right">
+
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <div class="user-info">
+                <i class="bi bi-person-circle"></i>
+                <span>Welcome, @User.Identity.Name</span>
+            </div>
+
+            <form asp-controller="Account"
+                  asp-action="Logout"
+                  method="post"
+                  style="display:inline;">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit" class="btn-custom btn-outline-custom">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Logout
+                </button>
+
+            </form>
+        }
+        else
+        {
+            <a asp-controller="Account"
+               asp-action="Login"
+               class="btn-custom btn-outline-custom">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Login
+            </a>
+
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="btn-custom btn-primary-custom">
+                <i class="bi bi-person-plus"></i>
+                Register
+            </a>
+        }
+
+    </div>
+
+</nav>

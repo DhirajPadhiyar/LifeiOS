@@ -1,0 +1,123 @@
+﻿@model LifeiOS.Models.TaskItem
+
+@{
+    ViewData["Title"] = "Task Details";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Task Details</h2>
+        <p>View complete information about this task.</p>
+    </div>
+</div>
+
+<div class="card-custom">
+
+    <div class="card-body">
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-bold">
+                    Title
+                </label>
+
+                <p>@Model.Title</p>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-bold">
+                    Priority
+                </label>
+
+                <p>@Model.Priority</p>
+
+            </div>
+
+            <div class="col-12">
+
+                <label class="form-label fw-bold">
+                    Description
+                </label>
+
+                <p>
+                    @(string.IsNullOrWhiteSpace(Model.Description)
+                        ? "No description available."
+                        : Model.Description)
+                </p>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-bold">
+                    Due Date
+                </label>
+
+                <p>
+                    @(Model.DueDate?.ToString("dd MMM yyyy") ?? "-")
+                </p>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-bold">
+                    Status
+                </label>
+
+                <p>
+                    @(Model.IsCompleted ? "Completed" : "Pending")
+                </p>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-bold">
+                    Created On
+                </label>
+
+                <p>
+                    @Model.CreatedAt.ToString("dd MMM yyyy hh:mm tt")
+                </p>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-bold">
+                    Last Updated
+                </label>
+
+                <p>
+                    @(Model.UpdatedAt?.ToString("dd MMM yyyy hh:mm tt") ?? "-")
+                </p>
+
+            </div>
+
+        </div>
+
+        <hr />
+
+        <div class="d-flex gap-2">
+
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn-custom btn-primary-custom">
+                Edit
+            </a>
+
+            <a asp-action="Index"
+               class="btn-custom btn-secondary-custom">
+                Back
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

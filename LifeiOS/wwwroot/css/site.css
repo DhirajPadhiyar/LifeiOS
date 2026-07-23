@@ -1,22 +1,131 @@
-html {
-  font-size: 14px;
+/* ==========================================================
+   LifeOS
+   Global Theme & Base Styles
+========================================================== */
+
+/* ===========================
+   CSS Variables
+=========================== */
+
+:root {
+    --primary: #2563EB;
+    --success: #22C55E;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+    --background: #F8FAFC;
+    --white: #FFFFFF;
+    --border: #E5E7EB;
+    --text: #374151;
+    --navbar-height: 70px;
+    --sidebar-width: 260px;
+    --radius: 10px;
+    --transition: .3s ease;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px; 
-  }
-} 
+/* ===========================
+   Reset
+=========================== */
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    font-size: 16px;
+    scroll-behavior: smooth;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Poppins',sans-serif;
+    background: var(--background);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* ===========================
+   Links
+=========================== */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===========================
+   Images
+=========================== */
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+button {
+    transition: var(--transition);
+}
+
+/* ===========================
+   Selection
+=========================== */
+
+::selection {
+    background: var(--primary);
+    color: white;
+}
+
+/* ===========================
+   Typography
+=========================== */
+
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+h5 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+h6 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+small {
+    font-size: 14px;
+    color: #6B7280;
 }

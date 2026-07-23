@@ -1,0 +1,253 @@
+﻿@model IEnumerable<LifeiOS.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Tasks</h2>
+        <p>Manage your daily tasks efficiently.</p>
+    </div>
+    <form asp-action="Index" method="get" class="mb-4">
+
+        <div class="d-flex gap-2">
+
+            <input type="text"
+                   name="searchTerm"
+                   value="@ViewBag.SearchTerm"
+                   class="form-control-custom"
+                   placeholder="Search by title or description..." />
+
+            <button type="submit"
+                    class="btn-custom btn-primary-custom">
+                Search
+            </button>
+
+            <a asp-action="Index"
+               class="btn-custom btn-secondary-custom">
+                Reset
+            </a>
+
+        </div>
+
+    </form>
+
+    <div class="d-flex flex-wrap gap-2 mb-4">
+
+        <a asp-action="Index"
+           asp-route-searchTerm="@ViewBag.SearchTerm"
+           class="btn-custom @(string.IsNullOrEmpty(ViewBag.Filter) ? "btn-primary-custom" : "btn-outline-custom")">
+            All
+        </a>
+
+        <a asp-action="Index"
+           asp-route-filter="pending"
+           asp-route-searchTerm="@ViewBag.SearchTerm"
+           class="btn-custom @(ViewBag.Filter == "pending" ? "btn-primary-custom" : "btn-outline-custom")">
+            Pending
+        </a>
+
+        <a asp-action="Index"
+           asp-route-filter="completed"
+           asp-route-searchTerm="@ViewBag.SearchTerm"
+           class="btn-custom @(ViewBag.Filter == "completed" ? "btn-primary-custom" : "btn-outline-custom")">
+            Completed
+        </a>
+
+        <a asp-action="Index"
+           asp-route-filter="high"
+           asp-route-searchTerm="@ViewBag.SearchTerm"
+           class="btn-custom @(ViewBag.Filter == "high" ? "btn-primary-custom" : "btn-outline-custom")">
+            High Priority
+        </a>
+
+        <a asp-action="Index"
+           asp-route-filter="today"
+           asp-route-searchTerm="@ViewBag.SearchTerm"
+           class="btn-custom @(ViewBag.Filter == "today" ? "btn-primary-custom" : "btn-outline-custom")">
+            Due Today
+        </a>
+
+    </div>
+
+    <a asp-action="Create" class="btn-custom btn-primary-custom mb-3">
+        <i class="bi bi-plus-lg"></i>
+        Add Task
+    </a>
+</div>
+
+<div class="card-custom">
+
+    <div class="card-body">
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+
+                <h5>No Tasks Found</h5>
+
+                <p class="text-muted">
+                    Start by creating your first task.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <table class="table-custom">
+
+                <thead>
+
+                    <tr>
+                        <th width="50"></th>
+                        <th>Title</th>
+                        <th>Priority</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th width="180">Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var task in Model)
+                    {
+                        <tr>
+                            <td>
+
+                                <form asp-action="ToggleComplete" method="post">
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@task.Id" />
+
+                                    <input type="checkbox"
+                                           onchange="this.form.submit()"
+                                    @(task.IsCompleted ? "checked" : "") />
+
+                                </form>
+
+                            </td>
+
+                            <td class="@(task.IsCompleted ? "task-completed" : "")">
+                                @task.Title
+                            </td>
+
+                            <td>
+
+                                <div class="priority">
+
+                                    @switch (task.Priority)
+                                    {
+                                        case TaskPriority.High:
+                                            <span class="priority-dot priority-high"></span>
+                                            break;
+
+                                        case TaskPriority.Medium:
+                                            <span class="priority-dot priority-medium"></span>
+                                            break;
+
+                                        default:
+                                            <span class="priority-dot priority-low"></span>
+                                            break;
+                                    }
+
+                                    <span>@task.Priority</span>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                @(task.DueDate?.ToString("dd MMM yyyy") ?? "-")
+                            </td>
+
+                            <td>
+
+                                @if (task.IsCompleted)
+                                {
+                                    <span class="badge-success">Completed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-warning">Pending</span>
+                                }
+
+                            </td>
+
+                            <td>
+                                @task.CreatedAt.ToString("dd MMM yyyy")
+                            </td>
+
+                            <td>
+
+                                <div class="dropdown">
+
+                                    <button class="action-menu-btn"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+
+                                        <i class="bi bi-three-dots-vertical"></i>
+
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-end action-dropdown">
+
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-action="Details"
+                                               asp-route-id="@task.Id">
+
+                                                <i class="bi bi-eye"></i>
+                                                View
+
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-action="Edit"
+                                               asp-route-id="@task.Id">
+
+                                                <i class="bi bi-pencil-square"></i>
+                                                Edit
+
+                                            </a>
+                                        </li>
+
+                                        @* <li>
+                                            <hr class="dropdown-divider">
+                                        </li> *@
+
+                                        <li>
+                                            <a class="dropdown-item text-danger"
+                                               asp-action="Delete"
+                                               asp-route-id="@task.Id">
+
+                                                <i class="bi bi-trash"></i>
+                                                Delete
+
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        }
+
+    </div>
+
+</div>

@@ -1,0 +1,91 @@
+﻿@model LifeiOS.ViewModels.ProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="page-header">
+    <h2>My Profile</h2>
+    <p>Manage your account information.</p>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mb-4">
+        @TempData["Success"]
+    </div>
+}
+
+<div class="card-custom">
+
+    <div class="card-body">
+
+        <div class="mb-3">
+            <label class="form-label-custom">
+                Full Name
+            </label>
+
+            <input asp-for="FullName"
+                   class="form-control-custom"
+                   readonly />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label-custom">
+                Email
+            </label>
+
+            <input asp-for="Email"
+                   class="form-control-custom"
+                   readonly />
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label-custom">
+                Member Since
+            </label>
+
+            <input value="@(Model.CreatedAt.ToString("dd MMM yyyy | hh:mm:ss tt"))"
+                   class="form-control-custom"
+                   readonly />
+        </div>
+
+        <!-- Primary Action -->
+
+        <div class="d-grid mb-4">
+
+            <a asp-action="Edit"
+               class="btn-custom btn-primary-custom">
+                Edit Profile
+            </a>
+
+        </div>
+
+        <hr class="profile-divider" />
+
+        <!-- Security Section -->
+
+        <div class="profile-section">
+
+            <h5 class="profile-section-title text-center">
+                Security
+            </h5>
+
+            <p class="profile-section-description text-center">
+                Keep your account secure by updating your password regularly.
+            </p>
+
+            <div class="d-grid">
+
+                <a asp-action="ChangePassword"
+                   class="btn-custom btn-outline-custom">
+                    Change Password
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

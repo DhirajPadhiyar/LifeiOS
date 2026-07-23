@@ -1,0 +1,245 @@
+﻿/* ==========================================================
+   Utilities
+========================================================== */
+
+/* ===========================
+   Margin
+=========================== */
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mt-40 {
+    margin-top: 40px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+/* ===========================
+   Padding
+=========================== */
+
+.p-10 {
+    padding: 10px;
+}
+
+.p-20 {
+    padding: 20px;
+}
+
+.p-30 {
+    padding: 30px;
+}
+
+.px-20 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.py-20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* ===========================
+   Flex
+=========================== */
+
+.d-flex-custom {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.gap-30 {
+    gap: 30px;
+}
+
+/* ===========================
+   Width
+=========================== */
+
+.w-100 {
+    width: 100%;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-25 {
+    width: 25%;
+}
+
+/* ===========================
+   Height
+=========================== */
+
+.h-100 {
+    height: 100%;
+}
+
+/* ===========================
+   Border Radius
+=========================== */
+
+.rounded-sm {
+    border-radius: 8px;
+}
+
+.rounded {
+    border-radius: 10px;
+}
+
+.rounded-lg {
+    border-radius: 15px;
+}
+
+.rounded-xl {
+    border-radius: 20px;
+}
+
+/* ===========================
+   Shadows
+=========================== */
+
+.shadow-sm {
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+
+.shadow {
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 25px rgba(0,0,0,.12);
+}
+
+/* ===========================
+   Background
+=========================== */
+
+.bg-white {
+    background: var(--white);
+}
+
+.bg-primary {
+    background: var(--primary);
+}
+
+.bg-success {
+    background: var(--success);
+}
+
+.bg-danger {
+    background: var(--danger);
+}
+
+.bg-warning {
+    background: var(--warning);
+}
+
+/* ===========================
+   Text
+=========================== */
+
+.text-center {
+    text-align: center;
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+.text-success {
+    color: var(--success);
+}
+
+.text-danger {
+    color: var(--danger);
+}
+
+.text-warning {
+    color: var(--warning);
+}
+
+.fw-bold {
+    font-weight: 700;
+}
+
+.fw-semibold {
+    font-weight: 600;
+}
+
+/* ===========================
+   Display
+=========================== */
+
+.d-none {
+    display: none;
+}
+
+.d-block {
+    display: block;
+}
+
+.d-inline {
+    display: inline-block;
+}
+
+/* ===========================
+   Cursor
+=========================== */
+
+.cursor-pointer {
+    cursor: pointer;
+}

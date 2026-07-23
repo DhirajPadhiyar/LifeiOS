@@ -1,0 +1,473 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="page-header mb-30">
+
+    <h1>Dashboard</h1>
+
+    <p>
+        Welcome back! Here's an overview of your LifeiOS.
+    </p>
+
+</div>
+<div class="dashboard-stats">
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon bg-primary">
+            <i class="bi bi-check2-square"></i>
+        </div>
+
+        <div class="dashboard-card-content">
+
+            <h5>Total Tasks</h5>
+
+            <h2>24</h2>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon bg-success">
+            <i class="bi bi-journal-text"></i>
+        </div>
+
+        <div class="dashboard-card-content">
+
+            <h5>Notes</h5>
+
+            <h2>18</h2>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon bg-warning">
+            <i class="bi bi-bullseye"></i>
+        </div>
+
+        <div class="dashboard-card-content">
+
+            <h5>Goals</h5>
+
+            <h2>5</h2>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-icon bg-danger">
+            <i class="bi bi-wallet2"></i>
+        </div>
+
+        <div class="dashboard-card-content">
+
+            <h5>Expenses</h5>
+
+            <h2>₹18,500</h2>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="card-custom mt-30">
+
+    <div class="card-header-custom">
+
+        <h3 class="card-title-custom">
+            Quick Actions
+        </h3>
+
+    </div>
+
+    <div class="card-body-custom">
+
+        <div class="quick-actions">
+
+            <a asp-controller="Tasks"
+               asp-action="Create"
+               class="quick-action">
+
+                <i class="bi bi-plus-square"></i>
+
+                <span>Add Task</span>
+
+            </a>
+
+            <a asp-controller="Notes"
+               asp-action="Create"
+               class="quick-action">
+
+                <i class="bi bi-journal-plus"></i>
+
+                <span>Add Note</span>
+
+            </a>
+
+            <a asp-controller="Goals"
+               asp-action="Create"
+               class="quick-action">
+
+                <i class="bi bi-bullseye"></i>
+
+                <span>Add Goal</span>
+
+            </a>
+
+            <a asp-controller="Expenses"
+               asp-action="Create"
+               class="quick-action">
+
+                <i class="bi bi-wallet2"></i>
+
+                <span>Add Expense</span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="dashboard-chart-grid mt-30">
+
+    <!-- Task Chart -->
+
+    <div class="card-custom">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+                Task Status
+            </h3>
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <canvas id="taskChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <!-- Expense Chart -->
+
+    <div class="card-custom">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+                Monthly Expenses
+            </h3>
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <canvas id="expenseChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="dashboard-widget-grid mt-30">
+
+    <!-- Recent Tasks -->
+
+    <div class="card-custom">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+                Recent Tasks
+            </h3>
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <ul class="dashboard-list">
+
+                <li>
+                    <i class="bi bi-check-circle-fill text-success"></i>
+                    Complete Dashboard UI
+                </li>
+
+                <li>
+                    <i class="bi bi-clock text-warning"></i>
+                    Read 20 Pages
+                </li>
+
+                <li>
+                    <i class="bi bi-circle text-primary"></i>
+                    Workout
+                </li>
+
+                <li>
+                    <i class="bi bi-circle text-primary"></i>
+                    Meditation
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- Latest Notes -->
+
+    <div class="card-custom">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+                Latest Notes
+            </h3>
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <ul class="dashboard-list">
+
+                <li>
+                    Project Meeting Notes
+                </li>
+
+                <li>
+                    Business Ideas
+                </li>
+
+                <li>
+                    Book Summary
+                </li>
+
+                <li>
+                    Shopping List
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="dashboard-widget-grid mt-30">
+
+    <!-- Goal Progress -->
+
+    <div class="card-custom">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+
+                Goal Progress
+
+            </h3>
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <div class="progress-item">
+
+                <div class="progress-header">
+
+                    <span>Learn ASP.NET Core MVC</span>
+
+                    <span>75%</span>
+
+                </div>
+
+                <div class="progress-bar-custom">
+
+                    <div class="progress-fill"
+                         style="width:75%;"></div>
+
+                </div>
+
+            </div>
+
+            <div class="progress-item">
+
+                <div class="progress-header">
+
+                    <span>Fitness</span>
+
+                    <span>60%</span>
+
+                </div>
+
+                <div class="progress-bar-custom">
+
+                    <div class="progress-fill"
+                         style="width:60%;"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Today's Schedule -->
+
+    <div class="card-custom">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+
+                Today's Schedule
+
+            </h3>
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <ul class="dashboard-list">
+
+                <li>08:00 AM - Morning Routine</li>
+
+                <li>10:00 AM - Coding</li>
+
+                <li>03:00 PM - Gym</li>
+
+                <li>09:00 PM - Reading</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+@section Scripts {
+
+    <script>
+
+        const taskChart = document.getElementById('taskChart');
+
+        new Chart(taskChart,{
+
+            type:'doughnut',
+
+            data:{
+
+                labels:['Completed','Pending','In Progress'],
+
+                datasets:[{
+
+                    data:[15,7,2],
+
+                    backgroundColor:[
+
+                        '#22C55E',
+
+                        '#F59E0B',
+
+                        '#2563EB'
+
+                    ]
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                maintainAspectRatio:false
+
+            }
+
+        });
+
+        const expenseChart=document.getElementById('expenseChart');
+
+        new Chart(expenseChart,{
+
+            type:'bar',
+
+            data:{
+
+                labels:[
+
+                    'Jan',
+
+                    'Feb',
+
+                    'Mar',
+
+                    'Apr',
+
+                    'May',
+
+                    'Jun'
+
+                ],
+
+                datasets:[{
+
+                    label:'Expenses',
+
+                    data:[
+
+                        12000,
+
+                        9000,
+
+                        18000,
+
+                        14000,
+
+                        22000,
+
+                        17000
+
+                    ],
+
+                    backgroundColor:'#2563EB'
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                maintainAspectRatio:false,
+
+                scales:{
+
+                    y:{
+
+                        beginAtZero:true
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    </script>
+
+}

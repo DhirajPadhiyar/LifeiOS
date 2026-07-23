@@ -1,0 +1,136 @@
+﻿/* ==========================================================
+   Responsive Design
+========================================================== */
+
+/* ===========================
+   Large Desktop
+   (1400px and below)
+=========================== */
+
+@media (max-width:1400px) {
+
+    .main-content {
+        padding: 25px;
+    }
+}
+
+/* ===========================
+   Laptop
+   (1200px and below)
+=========================== */
+
+@media (max-width:1200px) {
+
+    :root {
+        --sidebar-width: 230px;
+    }
+}
+
+/* ===========================
+   Tablet
+   (992px and below)
+=========================== */
+
+@media (max-width:992px) {
+
+    :root {
+        --sidebar-width: 220px;
+    }
+
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+}
+
+/* ===========================
+   Mobile
+   (768px and below)
+=========================== */
+
+@media (max-width:768px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform .3s ease;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .navbar {
+        padding: 0 15px;
+    }
+
+    .user-info {
+        display: none;
+    }
+}
+
+/* ===========================
+   Small Mobile
+   (576px and below)
+=========================== */
+
+@media (max-width:576px) {
+
+    h1 {
+        font-size: 26px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .btn-custom {
+        width: 100%;
+    }
+
+    .card-custom {
+        padding: 15px;
+    }
+}
+
+@media (max-width:1200px) {
+
+    .dashboard-stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (max-width:768px) {
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width:992px) {
+
+    .quick-actions {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (max-width:576px) {
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}
+@media(max-width:992px) {
+
+    .dashboard-chart-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media(max-width:992px) {
+
+    .dashboard-widget-grid {
+        grid-template-columns: 1fr;
+    }
+}
