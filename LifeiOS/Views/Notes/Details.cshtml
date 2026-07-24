@@ -1,0 +1,102 @@
+﻿@model LifeiOS.Models.Note
+
+@{
+    ViewData["Title"] = "Note Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold">Note Details</h2>
+        <p class="text-muted mb-0">
+            View your saved note.
+        </p>
+    </div>
+
+    <a asp-action="Index" class="btn btn-outline-custom">
+        <i class="bi bi-arrow-left me-2"></i>
+        Back
+    </a>
+
+</div>
+
+<div class="card-custom">
+
+    <div class="mb-4">
+
+        <h3 class="fw-bold">
+            @Model.Title
+        </h3>
+
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Category))
+    {
+        <div class="mb-4">
+
+            <span class="badge bg-primary">
+                @Model.Category
+            </span>
+
+        </div>
+    }
+
+    <div class="mb-4">
+
+        <h6 class="fw-semibold">
+            Content
+        </h6>
+
+        <p class="mb-0" style="white-space:pre-wrap;">
+            @Model.Content
+        </p>
+
+    </div>
+
+    <hr />
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <small class="text-muted">
+                <strong>Created:</strong><br />
+                @Model.CreatedAt.ToString("dd MMM yyyy hh:mm tt")
+            </small>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <small class="text-muted">
+
+                <strong>Last Updated:</strong><br />
+
+                @(Model.UpdatedAt?.ToString("dd MMM yyyy hh:mm tt") ?? "Never")
+
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="mt-4">
+
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       class="btn btn-primary-custom">
+
+        <i class="bi bi-pencil me-2"></i>
+
+        Edit
+
+    </a>
+
+    <a asp-action="Index" 
+       class="btn-custom btn-secondary-custom m-1">
+        Back
+    </a>
+
+</div>

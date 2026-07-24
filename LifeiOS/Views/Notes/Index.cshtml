@@ -1,0 +1,374 @@
+﻿@model IEnumerable<LifeiOS.Models.Note>
+
+@{
+    ViewData["Title"] = "Notes";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Notes</h2>
+        <p class="text-muted mb-0">
+            Organize your ideas and important information.
+        </p>
+    </div>
+
+    <a asp-action="Create" class="btn btn-primary-custom">
+        <i class="bi bi-plus-lg me-2"></i>
+        Create Note
+    </a>
+
+</div>
+<form asp-action="Index" method="get" class="notes-toolbar">
+
+    <div class="notes-search">
+
+        <input type="text"
+               name="searchString"
+               value="@ViewBag.SearchString"
+               class="form-control-custom"
+               placeholder="Search notes..." />
+
+        <button type="submit"
+                class="btn-search">
+
+            <i class="bi bi-search"></i>
+
+        </button>
+
+    </div>
+
+    <div class="notes-filters">
+
+        @* <select name="category"
+                class="form-select-custom">
+
+            <option value="">All Categories</option>
+
+            <option value="Personal">Personal</option>
+            <option value="Work">Work</option>
+            <option value="Business">Business</option>
+            <option value="Learning">Learning</option>
+            <option value="Ideas">Ideas</option>
+            <option value="Finance">Finance</option>
+            <option value="Health">Health</option>
+            <option value="Other">Other</option>
+
+        </select> *@
+
+        <select name="sortOrder"
+                class="form-select-custom">
+
+            <option value="">Newest First</option>
+
+            <option value="oldest">Oldest First</option>
+
+            <option value="title">Title (A-Z)</option>
+
+            <option value="title_desc">Title (Z-A)</option>
+
+            <option value="category">Category (A-Z)</option>
+
+            <option value="category_desc">Category (Z-A)</option>
+
+        </select>
+
+        <a asp-action="Index"
+           class="btn-custom btn-secondary-custom">
+
+            <i class="bi bi-arrow-counterclockwise me-2"></i>
+
+            Reset
+
+        </a>
+
+    </div>
+
+</form>
+<div class="category-chips mb-4">
+
+    <a asp-action="Index"
+       asp-route-searchString="@ViewBag.SearchString"
+       asp-route-sortOrder="@ViewBag.SortOrder"
+       class="chip @(string.IsNullOrEmpty(ViewBag.Category) ? "chip-active" : "")">
+
+        All
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-category="Personal"
+       asp-route-searchString="@ViewBag.SearchString"
+       asp-route-sortOrder="@ViewBag.SortOrder"
+       class="chip @(ViewBag.Category == "Personal" ? "chip-active" : "")">
+
+        Personal
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-category="Work"
+       asp-route-searchString="@ViewBag.SearchString"
+       asp-route-sortOrder="@ViewBag.SortOrder"
+       class="chip @(ViewBag.Category == "Work" ? "chip-active" : "")">
+
+        Work
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-category="Business"
+       asp-route-searchString="@ViewBag.SearchString"
+       asp-route-sortOrder="@ViewBag.SortOrder"
+       class="chip @(ViewBag.Category == "Business" ? "chip-active" : "")">
+
+        Business
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-category="Learning"
+       asp-route-searchString="@ViewBag.SearchString"
+       asp-route-sortOrder="@ViewBag.SortOrder"
+       class="chip @(ViewBag.Category == "Learning" ? "chip-active" : "")">
+
+        Learning
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-category="Ideas"
+       asp-route-searchString="@ViewBag.SearchString"
+       asp-route-sortOrder="@ViewBag.SortOrder"
+       class="chip @(ViewBag.Category == "Ideas" ? "chip-active" : "")">
+
+        Ideas
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-category="Finance"
+       asp-route-searchString="@ViewBag.SearchString"
+       asp-route-sortOrder="@ViewBag.SortOrder"
+       class="chip @(ViewBag.Category == "Finance" ? "chip-active" : "")">
+
+        Finance
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-category="Health"
+       asp-route-searchString="@ViewBag.SearchString"
+       asp-route-sortOrder="@ViewBag.SortOrder"
+       class="chip @(ViewBag.Category == "Health" ? "chip-active" : "")">
+
+        Health
+
+    </a>
+
+</div>
+@if (!Model.Any())
+{
+    <div class="card-custom text-center py-5">
+
+        <i class="bi bi-journal-text display-1 text-muted"></i>
+
+        <h4 class="mt-4 fw-bold">
+            No Notes Found
+        </h4>
+
+        <p class="text-muted mb-4">
+            Start writing your first note to keep your ideas organized.
+        </p>
+
+        <a asp-action="Create" class="btn btn-primary-custom">
+            <i class="bi bi-plus-lg me-2"></i>
+            Create First Note
+        </a>
+
+    </div>
+}
+else
+{
+    <div class="row g-4">
+
+        @foreach (var note in Model)
+        {
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card-custom h-100 d-flex flex-column">
+
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+
+                        <h5 class="fw-bold mb-0">
+                            @note.Title
+                        </h5>
+
+                        <div class="dropdown">
+
+                            <button class="action-menu-btn"
+                                    type="button"
+                                    data-bs-toggle="dropdown">
+
+                                <i class="bi bi-three-dots-vertical"></i>
+
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end action-dropdown">
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-action="Details"
+                                       asp-route-id="@note.Id">
+                                        <i class="bi bi-eye me-2"></i>
+                                        View
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-action="Edit"
+                                       asp-route-id="@note.Id">
+                                        <i class="bi bi-pencil me-2"></i>
+                                        Edit
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item text-danger"
+                                       asp-action="Delete"
+                                       asp-route-id="@note.Id">
+                                        <i class="bi bi-trash me-2"></i>
+                                        Delete
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(note.Category))
+                    {
+                        <div class="mb-3">
+
+                            @{
+                                var badgeClass = note.Category switch
+                                {
+                                    "Learning" => "bg-primary",
+                                    "Business" => "bg-warning text-dark",
+                                    "Work" => "bg-info text-dark",
+                                    "Personal" => "bg-success",
+                                    "Ideas" => "bg-purple",
+                                    "Finance" => "bg-dark",
+                                    "Health" => "bg-danger",
+                                    _ => "bg-secondary"
+                                };
+                            }
+
+                            <span class="badge @badgeClass">
+                                @note.Category
+                            </span>
+
+                        </div>
+                    }
+
+                    <p class="text-muted flex-grow-1">
+                        <p class="note-preview">
+                            @note.Content
+                        </p>
+                    </p>
+
+                    <hr />
+
+                    <div class="small text-muted">
+
+                        <div>
+
+                            <i class="bi bi-calendar3 me-1"></i>
+
+                            Created
+
+                            @note.CreatedAt.ToString("dd MMM yyyy")
+
+                        </div>
+
+                        @if (note.UpdatedAt != null)
+                        {
+                            <div class="mt-1">
+
+                                <i class="bi bi-pencil-square me-1"></i>
+
+                                Updated
+
+                                @note.UpdatedAt.Value.ToString("dd MMM yyyy")
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+}
+@if (ViewBag.TotalPages > 1)
+{
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            <!-- Previous -->
+
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage - 1)"
+                   asp-route-searchString="@ViewBag.SearchString">
+
+                    Previous
+
+                </a>
+
+            </li>
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-searchString="@ViewBag.SearchString">
+
+                        @i
+
+                    </a>
+
+                </li>
+            }
+
+            <!-- Next -->
+
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage + 1)"
+                   asp-route-searchString="@ViewBag.SearchString">
+
+                    Next
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+}

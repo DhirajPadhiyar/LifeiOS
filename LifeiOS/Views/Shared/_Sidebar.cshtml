@@ -1,4 +1,7 @@
-﻿<aside class="sidebar">
+﻿@{
+    var controller = ViewContext.RouteData.Values["Controller"]?.ToString();
+}
+<aside class="sidebar">
 
     <!-- Sidebar Header -->
 
@@ -13,8 +16,8 @@
     <ul class="sidebar-menu">
         <li>
             <a asp-controller="Profile"
-               asp-action="Index">
-                <i class="bi bi-person"></i>
+               asp-action="Index"
+               class="@(controller == "Profile" ? "active" : "")">
                 <span>Profile</span>
             </a>
         </li>
@@ -22,7 +25,8 @@
         <li>
 
             <a asp-controller="Dashboard"
-               asp-action="Index">
+               asp-action="Index"
+               class="@(controller == "Dashboard" ? "active" : "")">
                @* class="active"> *@
 
                 <i class="bi bi-speedometer2"></i>
@@ -36,7 +40,8 @@
         <li>
 
             <a asp-controller="Tasks"
-               asp-action="Index">
+               asp-action="Index"
+               class="@(controller == "Tasks" ? "active" : "")">
 
                 <i class="bi bi-check2-square"></i>
 
@@ -48,7 +53,9 @@
 
         <li>
 
-            <a href="#">
+            <a asp-controller="Notes"
+               asp-action="Index"
+               class="@(controller == "Notes" ? "active" : "")">
 
                 <i class="bi bi-journal-text"></i>
 

@@ -1,0 +1,106 @@
+﻿@model LifeiOS.Models.Note
+
+@{
+    ViewData["Title"] = "Create Note";
+}
+
+<div class="page-header mb-4">
+
+    <h2 class="fw-bold">Create Note</h2>
+
+    <p class="text-muted">
+        Save your ideas and important information.
+    </p>
+
+</div>
+
+<div class="card-custom">
+
+    <form asp-action="Create" method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+
+            <label asp-for="Title" class="form-label"></label>
+
+            <input asp-for="Title"
+                   class="form-control-custom" />
+
+            <span asp-validation-for="Title"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label asp-for="Category" class="form-label"></label>
+
+            <select asp-for="Category" class="form-select-custom">
+
+                <option value="">-- Select Category (Optional) --</option>
+
+                <option>Personal</option>
+
+                <option>Work</option>
+
+                <option>Business</option>
+
+                <option>Learning</option>
+
+                <option>Ideas</option>
+
+                <option>Finance</option>
+
+                <option>Health</option>
+
+                <option>Other</option>
+
+            </select>
+
+            <span asp-validation-for="Category"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-4">
+
+            <label asp-for="Content"
+                   class="form-label"></label>
+
+            <textarea asp-for="Content"
+                      rows="10"
+                      class="form-control-custom"
+                      placeholder="Write your note here..."></textarea>
+
+            <span asp-validation-for="Content"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button type="submit"
+                    class="btn btn-primary-custom">
+
+                <i class="bi bi-check-lg me-2"></i>
+
+                Save Note
+
+            </button>
+
+            <a asp-action="Index"
+               class="btn-custom btn-secondary-custom">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

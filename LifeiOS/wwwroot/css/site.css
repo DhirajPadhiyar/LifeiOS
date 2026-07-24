@@ -129,3 +129,95 @@ small {
     font-size: 14px;
     color: #6B7280;
 }
+/* ===========================
+   Search Form
+=========================== */
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2rem;
+}
+
+.search-input {
+    flex: 1;
+    border-radius: 12px;
+}
+
+.btn-search {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #2563eb;
+    border-radius: 12px;
+    background-color: #2563eb; /* Blue by default */
+    color: #fff; /* White icon */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+    .btn-search:hover {
+        background-color: #1d4ed8; /* Darker blue on hover */
+        border-color: #1d4ed8;
+        color: #fff;
+    }
+/* ==========================================
+   Custom Select
+========================================== */
+
+.form-select-custom {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #dcdfe4;
+    border-radius: 12px;
+    background-color: #fff;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+    .form-select-custom:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+    }
+
+/* ===========================
+   Notes Toolbar
+=========================== */
+
+.notes-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 2rem;
+}
+
+.notes-search {
+    display: flex;
+    gap: 12px;
+}
+
+    .notes-search .form-control-custom {
+        flex: 1;
+    }
+
+.notes-filters {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+    .notes-filters .form-select-custom {
+        width: 220px;
+    }
+
+    .notes-filters .btn-custom {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }   

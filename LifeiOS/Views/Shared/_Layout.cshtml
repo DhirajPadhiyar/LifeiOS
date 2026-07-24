@@ -50,7 +50,9 @@
 
         @RenderBody()
 
+
     </main>
+    <partial name="_Toast" />
 
     <!-- Scripts -->
 
@@ -61,6 +63,41 @@
     <script src="~/js/site.js"
             asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    const toast=document.getElementById("lifeToast");
+
+    if(!toast)
+        return;
+
+    setTimeout(()=>{
+
+        toast.style.opacity="0";
+
+        toast.style.transform="translateX(50px)";
+
+        setTimeout(()=>toast.remove(),300);
+
+    },3000);
+
+    const close=document.getElementById("closeToast");
+
+    if(close){
+
+        close.addEventListener("click",()=>{
+
+            toast.remove();
+
+        });
+
+    }
+
+});
+
+</script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

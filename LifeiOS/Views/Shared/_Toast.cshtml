@@ -1,0 +1,45 @@
+﻿@if (TempData["ToastMessage"] != null)
+{
+    var toastType = TempData["ToastType"]?.ToString() ?? "success";
+
+    <div id="lifeToast"
+         class="life-toast @toastType">
+
+        <div class="life-toast-icon">
+
+            @switch (toastType)
+            {
+                case "success":
+                    <i class="bi bi-check-circle-fill"></i>
+                    break;
+
+                case "error":
+                    <i class="bi bi-x-circle-fill"></i>
+                    break;
+
+                case "warning":
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    break;
+
+                default:
+                    <i class="bi bi-info-circle-fill"></i>
+                    break;
+            }
+
+        </div>
+
+        <div class="life-toast-message">
+
+            @TempData["ToastMessage"]
+
+        </div>
+
+        <button id="closeToast"
+                type="button">
+
+            <i class="bi bi-x-lg"></i>
+
+        </button>
+
+    </div>
+}

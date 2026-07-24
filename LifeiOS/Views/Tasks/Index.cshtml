@@ -32,49 +32,131 @@
         </div>
 
     </form>
+</div>
 
-    <div class="d-flex flex-wrap gap-2 mb-4">
+<div class="d-flex flex-wrap gap-2 mb-4">
 
-        <a asp-action="Index"
-           asp-route-searchTerm="@ViewBag.SearchTerm"
-           class="btn-custom @(string.IsNullOrEmpty(ViewBag.Filter) ? "btn-primary-custom" : "btn-outline-custom")">
-            All
-        </a>
+    <a asp-action="Index"
+       asp-route-searchTerm="@ViewBag.SearchTerm"
+       class="btn-custom @(string.IsNullOrEmpty(ViewBag.Filter) ? "btn-primary-custom" : "btn-outline-custom")">
+        All
+    </a>
 
-        <a asp-action="Index"
-           asp-route-filter="pending"
-           asp-route-searchTerm="@ViewBag.SearchTerm"
-           class="btn-custom @(ViewBag.Filter == "pending" ? "btn-primary-custom" : "btn-outline-custom")">
-            Pending
-        </a>
+    <a asp-action="Index"
+       asp-route-filter="pending"
+       asp-route-searchTerm="@ViewBag.SearchTerm"
+       class="btn-custom @(ViewBag.Filter == "pending" ? "btn-primary-custom" : "btn-outline-custom")">
+        Pending
+    </a>
 
-        <a asp-action="Index"
-           asp-route-filter="completed"
-           asp-route-searchTerm="@ViewBag.SearchTerm"
-           class="btn-custom @(ViewBag.Filter == "completed" ? "btn-primary-custom" : "btn-outline-custom")">
-            Completed
-        </a>
+    <a asp-action="Index"
+       asp-route-filter="completed"
+       asp-route-searchTerm="@ViewBag.SearchTerm"
+       class="btn-custom @(ViewBag.Filter == "completed" ? "btn-primary-custom" : "btn-outline-custom")">
+        Completed
+    </a>
 
-        <a asp-action="Index"
-           asp-route-filter="high"
-           asp-route-searchTerm="@ViewBag.SearchTerm"
-           class="btn-custom @(ViewBag.Filter == "high" ? "btn-primary-custom" : "btn-outline-custom")">
-            High Priority
-        </a>
+    <a asp-action="Index"
+       asp-route-filter="high"
+       asp-route-searchTerm="@ViewBag.SearchTerm"
+       class="btn-custom @(ViewBag.Filter == "high" ? "btn-primary-custom" : "btn-outline-custom")">
+        High Priority
+    </a>
 
-        <a asp-action="Index"
-           asp-route-filter="today"
-           asp-route-searchTerm="@ViewBag.SearchTerm"
-           class="btn-custom @(ViewBag.Filter == "today" ? "btn-primary-custom" : "btn-outline-custom")">
-            Due Today
-        </a>
+    <a asp-action="Index"
+       asp-route-filter="today"
+       asp-route-searchTerm="@ViewBag.SearchTerm"
+       class="btn-custom @(ViewBag.Filter == "today" ? "btn-primary-custom" : "btn-outline-custom")">
+        Due Today
+    </a>
 
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4 mb-4">
+
+    <div class="col">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                <i class="bi-list-task"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h4>@ViewBag.TotalTasks</h4>
+                <span>Total Tasks</span>
+            </div>
+
+        </div>
     </div>
 
-    <a asp-action="Create" class="btn-custom btn-primary-custom mb-3">
+    <div class="col">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                <i class="bi-hourglass-split"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h4>@ViewBag.PendingTasks</h4>
+                <span>Pending</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                <i class="bi-check-circle-fill"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h4>@ViewBag.CompletedTasks</h4>
+                <span>Completed</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                <i class="bi-flag-fill"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h4>@ViewBag.HighPriorityTasks</h4>
+                <span>High Priority</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                <i class=" bi-calendar-check"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h4>@ViewBag.DueTodayTasks</h4>
+                <span>Due Today</span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="d-flex justify-content-center mb-3">
+    <a asp-action="Create" class="btn-custom btn-primary-custom">
         <i class="bi bi-plus-lg"></i>
         Add Task
     </a>
+</div>
 </div>
 
 <div class="card-custom">
@@ -101,11 +183,111 @@
 
                     <tr>
                         <th width="50"></th>
-                        <th>Title</th>
-                        <th>Priority</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                        <th>Created</th>
+                        <th>
+
+                            <a asp-action="Index"
+                               asp-route-searchTerm="@ViewBag.SearchTerm"
+                               asp-route-filter="@ViewBag.Filter"
+                               asp-route-page="@ViewBag.CurrentPage"
+                               asp-route-sortOrder="@(ViewBag.SortOrder == "title" ? "title_desc" : "title")"
+                               class="sort-link">
+
+                                Title
+
+                                @if (ViewBag.SortOrder == "title")
+                                {
+                                    <i class="bi bi-arrow-up"></i>
+                                }
+                                else if (ViewBag.SortOrder == "title_desc")
+                                {
+                                    <i class="bi bi-arrow-down"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-arrow-down-up"></i>
+                                }
+
+                            </a>
+
+                        </th>
+                        <th>
+
+                            <a asp-action="Index"
+                               asp-route-searchTerm="@ViewBag.SearchTerm"
+                               asp-route-filter="@ViewBag.Filter"
+                               asp-route-page="@ViewBag.CurrentPage"
+                               asp-route-sortOrder="@(ViewBag.SortOrder == "priority" ? "priority_desc" : "priority")"
+                               class="sort-link">
+
+                                Priority
+
+                                @if (ViewBag.SortOrder == "priority")
+                                {
+                                    <i class="bi bi-arrow-up"></i>
+                                }
+                                else if (ViewBag.SortOrder == "priority_desc")
+                                {
+                                    <i class="bi bi-arrow-down"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-arrow-down-up"></i>
+                                }
+
+                            </a>
+
+                        </th>
+                        <th>
+
+                            <a asp-action="Index"
+                               asp-route-searchTerm="@ViewBag.SearchTerm"
+                               asp-route-filter="@ViewBag.Filter"
+                               asp-route-page="@ViewBag.CurrentPage"
+                               asp-route-sortOrder="@(ViewBag.SortOrder == "due" ? "due_desc" : "due")"
+                               class="sort-link">
+
+                                Due Date
+
+                                @if (ViewBag.SortOrder == "due")
+                                {
+                                    <i class="bi bi-arrow-up"></i>
+                                }
+                                else if (ViewBag.SortOrder == "due_desc")
+                                {
+                                    <i class="bi bi-arrow-down"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-arrow-down-up"></i>
+                                }
+
+                            </a>
+
+                        </th>
+                        @* <th>Status</th> *@
+                        <th>
+
+                            <a asp-action="Index"
+                               asp-route-searchTerm="@ViewBag.SearchTerm"
+                               asp-route-filter="@ViewBag.Filter"
+                               asp-route-page="@ViewBag.CurrentPage"
+                               asp-route-sortOrder="@(ViewBag.SortOrder == "created" ? "" : "created")"
+                               class="sort-link">
+
+                                Created
+
+                                @if (ViewBag.SortOrder == "created")
+                                {
+                                    <i class="bi bi-arrow-up"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-arrow-down"></i>
+                                }
+
+                            </a>
+
+                        </th>
                         <th width="180">Actions</th>
                     </tr>
 
@@ -124,7 +306,7 @@
                                            name="id"
                                            value="@task.Id" />
 
-                                    <input type="checkbox"
+                                    <input type="checkbox" class="task-checkbox"
                                            onchange="this.form.submit()"
                                     @(task.IsCompleted ? "checked" : "") />
 
@@ -162,10 +344,36 @@
                             </td>
 
                             <td>
-                                @(task.DueDate?.ToString("dd MMM yyyy") ?? "-")
+
+                                @if (task.DueDate.HasValue)
+                                {
+                                    if (task.DueDate.Value.Date < DateTime.Today)
+                                    {
+                                        <span class="text-danger fw-semibold">
+                                            @task.DueDate.Value.ToString("dd MMM yyyy")
+                                        </span>
+                                    }
+                                    else if (task.DueDate.Value.Date == DateTime.Today)
+                                    {
+                                        <span class="text-warning fw-semibold">
+                                            Today
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-success fw-semibold">
+                                            @task.DueDate.Value.ToString("dd MMM yyyy")
+                                        </span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+
                             </td>
 
-                            <td>
+                            @* <td>
 
                                 @if (task.IsCompleted)
                                 {
@@ -176,7 +384,7 @@
                                     <span class="badge-warning">Pending</span>
                                 }
 
-                            </td>
+                            </td> *@
 
                             <td>
                                 @task.CreatedAt.ToString("dd MMM yyyy")
@@ -251,3 +459,65 @@
     </div>
 
 </div>
+@if (ViewBag.TotalPages > 1)
+{
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            <!-- Previous -->
+
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage - 1)"
+                   asp-route-searchTerm="@ViewBag.SearchTerm"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortOrder="@ViewBag.SortOrder">
+
+                    Previous
+
+                </a>
+
+            </li>
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-searchTerm="@ViewBag.SearchTerm"
+                       asp-route-filter="@ViewBag.Filter"
+                       asp-route-sortOrder="@ViewBag.SortOrder">
+
+                        @i
+
+                    </a>
+
+                </li>
+            }
+
+            <!-- Next -->
+
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage + 1)"
+                   asp-route-searchTerm="@ViewBag.SearchTerm"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortOrder="@ViewBag.SortOrder">
+
+                    Next
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+}

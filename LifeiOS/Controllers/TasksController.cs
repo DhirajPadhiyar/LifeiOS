@@ -14,8 +14,13 @@ namespace LifeiOS.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(string? searchTerm, string? filter)
+        public async Task<IActionResult> Index(
+    string? searchTerm,
+    string? filter,
+    string? sortOrder,
+    int page = 1)
         {
+            const int pageSize = 10;
             var query = _context.TaskItems.AsQueryable();
 
             // Search
@@ -49,14 +54,63 @@ namespace LifeiOS.Controllers
                         t.DueDate.Value.Date == DateTime.Today);
                     break;
             }
+            query = sortOrder switch
+            {
+                // Title
+                "title_desc" => query.OrderByDescending(t => t.Title),
+                "title" => query.OrderBy(t => t.Title),
+
+                // Priority
+                "priority_desc" => query.OrderByDescending(t => t.Priority),
+                "priority" => query.OrderBy(t => t.Priority),
+
+                // Due Date
+                "due_desc" => query.OrderByDescending(t => t.DueDate),
+                "due" => query.OrderBy(t => t.DueDate),
+
+                // Created Date
+                "created" => query.OrderBy(t => t.CreatedAt),
+
+                // Default View (Pending first, Completed last)
+                _ => query
+                        .OrderBy(t => t.IsCompleted)
+                        .ThenByDescending(t => t.CreatedAt)
+            };
+
+            var totalTasks = await query.CountAsync();
 
             var tasks = await query
-                .OrderByDescending(t => t.CreatedAt)
-                .ToListAsync();
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync();
 
             ViewBag.SearchTerm = searchTerm;
             ViewBag.Filter = filter;
 
+            ViewBag.CurrentPage = page;
+
+            ViewBag.TotalPages = (int)Math.Ceiling(totalTasks / (double)pageSize);
+
+            ViewBag.SearchTerm = searchTerm;
+
+            ViewBag.Filter = filter;
+            ViewBag.TotalTasks = await _context.TaskItems.CountAsync();
+
+            ViewBag.PendingTasks = await _context.TaskItems
+                .CountAsync(t => !t.IsCompleted);
+
+            ViewBag.CompletedTasks = await _context.TaskItems
+                .CountAsync(t => t.IsCompleted);
+
+            ViewBag.HighPriorityTasks = await _context.TaskItems
+                .CountAsync(t => t.Priority == TaskPriority.High);
+
+            ViewBag.DueTodayTasks = await _context.TaskItems
+                .CountAsync(t =>
+                    t.DueDate.HasValue &&
+                    t.DueDate.Value.Date == DateTime.Today);
+
+            ViewBag.SortOrder = sortOrder;
             return View(tasks);
         }
         public IActionResult Create()
@@ -77,6 +131,9 @@ namespace LifeiOS.Controllers
             _context.TaskItems.Add(task);
 
             await _context.SaveChangesAsync();
+
+            TempData["ToastType"] = "success";
+            TempData["ToastMessage"] = "Task created successfully.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -143,6 +200,9 @@ namespace LifeiOS.Controllers
 
             await _context.SaveChangesAsync();
 
+            TempData["ToastType"] = "success";
+            TempData["ToastMessage"] = "Task updated successfully.";
+
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Delete(int? id)
@@ -174,6 +234,9 @@ namespace LifeiOS.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            TempData["ToastType"] = "success";
+            TempData["ToastMessage"] = "Task deleted successfully.";
+
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]
@@ -189,6 +252,11 @@ namespace LifeiOS.Controllers
             task.UpdatedAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
+
+            TempData["ToastType"] = "info";
+            TempData["ToastMessage"] = task.IsCompleted
+                ? "Task marked as completed."
+                : "Task marked as pending.";
 
             return RedirectToAction(nameof(Index));
         }
