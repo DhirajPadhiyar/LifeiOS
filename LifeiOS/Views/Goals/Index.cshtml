@@ -1,0 +1,455 @@
+﻿@model IEnumerable<LifeiOS.Models.Goal>
+
+@{
+    ViewData["Title"] = "Goals";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Goals</h2>
+        <p class="text-muted mb-0">
+            Track your long-term goals and monitor your progress.
+        </p>
+    </div>
+
+    <a asp-action="Create" class="btn btn-primary-custom">
+        <i class="bi bi-plus-lg me-2"></i>
+        Create Goal
+    </a>
+
+</div>
+
+
+<form asp-action="Index"
+      method="get"
+      class="notes-toolbar">
+
+    <div class="notes-search">
+
+        <input type="text"
+               name="searchString"
+               value="@ViewBag.SearchString"
+               class="form-control-custom"
+               placeholder="Search goals..." />
+
+        <button type="submit"
+                class="btn-search">
+
+            <i class="bi bi-search"></i>
+
+        </button>
+
+    </div>
+
+    <div>
+
+        <a asp-action="Index"
+           class="btn btn-secondary-custom">
+
+            <i class="bi bi-arrow-counterclockwise me-2"></i>
+
+            Reset
+
+        </a>
+
+    </div>
+
+</form>
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                <i class="bi bi-bullseye"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h3>@ViewBag.TotalGoals</h3>
+                <p>Total Goals</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon text-success">
+                <i class="bi bi-check-circle"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h3>@ViewBag.CompletedGoals</h3>
+                <p>Completed</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon text-warning">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h3>@ViewBag.InProgressGoals</h3>
+                <p>In Progress</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon text-danger">
+                <i class="bi bi-exclamation-circle"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h3>@ViewBag.OverdueGoals</h3>
+                <p>Overdue</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="category-chips mb-4">
+
+    <a asp-action="Index"
+       asp-route-searchString="@ViewBag.SearchString"
+       class="chip @(string.IsNullOrEmpty(ViewBag.Status) ? "chip-active" : "")">
+
+        All
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-status="progress"
+       asp-route-searchString="@ViewBag.SearchString"
+       class="chip @(ViewBag.Status == "progress" ? "chip-active" : "")">
+
+        In Progress
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-status="completed"
+       asp-route-searchString="@ViewBag.SearchString"
+       class="chip @(ViewBag.Status == "completed" ? "chip-active" : "")">
+
+        Completed
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-status="overdue"
+       asp-route-searchString="@ViewBag.SearchString"
+       class="chip @(ViewBag.Status == "overdue" ? "chip-active" : "")">
+
+        Overdue
+
+    </a>
+
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card-custom text-center py-5">
+
+        <i class="bi bi-bullseye display-1 text-muted"></i>
+
+        <h4 class="mt-4 fw-bold">
+            No Goals Found
+        </h4>
+
+        <p class="text-muted mb-4">
+            Create your first goal and start tracking your achievements.
+        </p>
+
+        <a asp-action="Create" class="btn btn-primary-custom">
+            <i class="bi bi-plus-lg me-2"></i>
+            Create First Goal
+        </a>
+
+    </div>
+}
+else
+{
+    <div class="card-custom">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Goal</th>
+
+                        <th>Target Date</th>
+
+                    <th style="width:350px;">Progress</th>
+                    <th style="width:170px; padding-left:50px;">Status</th>
+
+                    <th style="width:170px; padding-left:10px;">Remaining</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var goal in Model)
+                    {
+                        <tr>
+
+                            <td>
+
+                                <strong>@goal.GoalTitle</strong>
+
+                                @if (!string.IsNullOrWhiteSpace(goal.Description))
+                                {
+                                    <br />
+
+                                    <small class="text-muted">
+                                        @goal.Description
+                                    </small>
+                                }
+
+                            </td>
+
+                            <td>
+                                @goal.TargetDate.ToString("dd MMM yyyy")
+                            </td>
+
+                        <td style="width:350px; min-width:350px;">
+
+                            <div class="d-flex justify-content-between mb-1">
+
+                                <small class="fw-semibold">
+                                    @goal.Progress%
+                                </small>
+
+                                @if (goal.TargetValue.HasValue)
+                                {
+                                    <small class="text-muted">
+                                        @goal.CurrentValue / @goal.TargetValue
+                                    </small>
+                                }
+
+                            </div>
+
+                            <div class="progress goal-progress">
+
+                                <div class="progress-bar
+                                    @(goal.Progress >= 100 ? "bg-success"
+                                     : goal.Progress >= 60 ? "bg-primary"
+                                     : goal.Progress >= 30 ? "bg-warning text-dark"
+                                     : "bg-danger")"
+                                     role="progressbar"
+                                     style="width:@goal.Progress%;">
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td style="padding-left:50px; width:170px;">
+
+                            @if (goal.IsCompleted)
+                            {
+                                <span class="badge bg-success">
+                                    Completed
+                                </span>
+                            }
+                            else if (goal.TargetDate.Date < DateTime.Today)
+                            {
+                                <span class="badge bg-danger">
+                                    Overdue
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    In Progress
+                                </span>
+                            }
+
+                        </td>
+                        <td>
+
+                            @{
+                                var remainingDays = (goal.TargetDate.Date - DateTime.Today).Days;
+                            }
+
+                            @if (goal.IsCompleted)
+                            {
+                                <span class="text-success">
+                                    Completed
+                                </span>
+                            }
+                            else if (remainingDays < 0)
+                            {
+                                <span class="text-danger fw-semibold">
+                                    @Math.Abs(remainingDays) day(s) overdue
+                                </span>
+                            }
+                            else if (remainingDays == 0)
+                            {
+                                <span class="text-warning fw-semibold">
+                                    Due Today
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    @remainingDays day(s) left
+                                </span>
+                            }
+
+                        </td>
+
+                            <td class="text-end">
+
+                                <div class="dropdown">
+
+                                    <button class="action-menu-btn"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+
+                                        <i class="bi bi-three-dots-vertical"></i>
+
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-end action-dropdown">
+
+                                        <li>
+
+                                            <a class="dropdown-item"
+                                               asp-action="Details"
+                                               asp-route-id="@goal.Id">
+
+                                                <i class="bi bi-eye me-2"></i>
+
+                                                View
+
+                                            </a>
+
+                                        </li>
+
+                                        <li>
+
+                                            <a class="dropdown-item"
+                                               asp-action="Edit"
+                                               asp-route-id="@goal.Id">
+
+                                                <i class="bi bi-pencil me-2"></i>
+
+                                                Edit
+
+                                            </a>
+
+                                        </li>
+
+                                        <li>
+
+                                            <a class="dropdown-item text-danger"
+                                               asp-action="Delete"
+                                               asp-route-id="@goal.Id">
+
+                                                <i class="bi bi-trash me-2"></i>
+
+                                                Delete
+
+                                            </a>
+
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+}
+@if (ViewBag.TotalPages > 1)
+{
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            <!-- Previous -->
+
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage - 1)"
+                   asp-route-searchString="@ViewBag.SearchString"
+                   asp-route-status="@ViewBag.Status">
+
+                    Previous
+
+                </a>
+
+            </li>
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-searchString="@ViewBag.SearchString"
+                       asp-route-status="@ViewBag.Status">
+
+                        @i
+
+                    </a>
+
+                </li>
+            }
+
+            <!-- Next -->
+
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage + 1)"
+                   asp-route-searchString="@ViewBag.SearchString"
+                   asp-route-status="@ViewBag.Status">
+
+                    Next
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+}

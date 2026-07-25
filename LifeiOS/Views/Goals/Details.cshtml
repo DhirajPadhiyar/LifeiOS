@@ -1,0 +1,211 @@
+﻿@model LifeiOS.Models.Goal
+
+@{
+    ViewData["Title"] = "Goal Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Goal Details</h2>
+        <p class="text-muted mb-0">
+            View complete information about your goal.
+        </p>
+    </div>
+
+    <a asp-action="Index"
+       class="btn btn-secondary-custom">
+        <i class="bi bi-arrow-left me-2"></i>
+        Back
+    </a>
+
+</div>
+
+<div class="card-custom">
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+
+            <label class="form-label fw-semibold">
+                Goal Title
+            </label>
+
+            <p>@Model.GoalTitle</p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <label class="form-label fw-semibold">
+                Status
+            </label>
+
+            <p>
+
+                @if (Model.IsCompleted)
+                {
+                    <span class="badge bg-success">
+                        Completed
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark">
+                        In Progress
+                    </span>
+                }
+
+            </p>
+
+        </div>
+
+        <div class="col-12">
+
+            <label class="form-label fw-semibold">
+                Description
+            </label>
+
+            <p>
+
+                @(string.IsNullOrWhiteSpace(Model.Description)
+                    ? "No description available."
+                    : Model.Description)
+
+            </p>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <label class="form-label fw-semibold">
+                Target Date
+            </label>
+
+            <p>
+                @Model.TargetDate.ToString("dd MMM yyyy")
+            </p>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <label class="form-label fw-semibold">
+                Target Value
+            </label>
+
+            <p>
+
+                @(Model.TargetValue?.ToString() ?? "-")
+
+            </p>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <label class="form-label fw-semibold">
+                Current Value
+            </label>
+
+            <p>
+                @Model.CurrentValue
+            </p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <label class="form-label fw-semibold">
+                Progress
+            </label>
+
+            <div class="progress" style="height:22px;">
+
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width:@Model.Progress%;">
+
+                    @Model.Progress%
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <label class="form-label fw-semibold">
+                Remaining Days
+            </label>
+
+            <p>
+
+                @{
+                    var remainingDays = (Model.TargetDate.Date - DateTime.Today).Days;
+                }
+
+                @if (Model.IsCompleted)
+                {
+                    <span class="text-success">
+                        Goal Completed
+                    </span>
+                }
+                else if (remainingDays < 0)
+                {
+                    <span class="text-danger">
+                        Overdue by @Math.Abs(remainingDays) day(s)
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @remainingDays day(s) left
+                    </span>
+                }
+
+            </p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <label class="form-label fw-semibold">
+                Created On
+            </label>
+
+            <p>
+                @Model.CreatedAt.ToString("dd MMM yyyy hh:mm tt")
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr />
+
+    <div class="d-flex gap-2">
+
+        <a asp-action="Edit"
+           asp-route-id="@Model.Id"
+           class="btn btn-primary-custom">
+
+            <i class="bi bi-pencil me-2"></i>
+
+            Edit Goal
+
+        </a>
+
+        <a asp-action="Index"
+           class="btn btn-secondary-custom">
+
+            <i class="bi bi-arrow-left me-2"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+</div>

@@ -58,6 +58,10 @@
         transition: transform .3s ease;
     }
 
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
     .main-content {
         margin-left: 0;
         padding: 20px;
@@ -71,7 +75,6 @@
         display: none;
     }
 }
-
 /* ===========================
    Small Mobile
    (576px and below)
@@ -133,4 +136,20 @@
     .dashboard-widget-grid {
         grid-template-columns: 1fr;
     }
+}
+.dashboard-stats h3 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text);
+}
+
+.dashboard-stats p {
+    margin: 6px 0 0;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.2;
+    white-space: nowrap;
 }

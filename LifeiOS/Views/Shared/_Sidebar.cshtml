@@ -18,7 +18,11 @@
             <a asp-controller="Profile"
                asp-action="Index"
                class="@(controller == "Profile" ? "active" : "")">
+
+                <i class="bi bi-person"></i>
+
                 <span>Profile</span>
+
             </a>
         </li>
 
@@ -79,7 +83,9 @@
 
         <li>
 
-            <a href="#">
+            <a asp-controller="Goals"
+               asp-action="Index"
+               class="@(controller == "Goals" ? "active" : "")">
 
                 <i class="bi bi-bullseye"></i>
 

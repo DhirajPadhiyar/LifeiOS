@@ -1,0 +1,87 @@
+﻿@model LifeiOS.Models.Goal
+
+@{
+    ViewData["Title"] = "Edit Goal";
+}
+
+<div class="page-header">
+    <h2>Edit Goal</h2>
+    <p>Update your goal and keep your progress on track.</p>
+</div>
+
+<div class="card-custom">
+
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label asp-for="GoalTitle" class="form-label"></label>
+            <input asp-for="GoalTitle" class="form-control-custom" />
+            <span asp-validation-for="GoalTitle" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description"
+                      rows="4"
+                      class="form-control-custom"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TargetDate" class="form-label"></label>
+            <input asp-for="TargetDate"
+                   type="date"
+                   class="form-control-custom" />
+            <span asp-validation-for="TargetDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TargetValue" class="form-label"></label>
+            <input asp-for="TargetValue"
+                   class="form-control-custom" />
+            <span asp-validation-for="TargetValue" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="CurrentValue" class="form-label"></label>
+            <input asp-for="CurrentValue"
+                   class="form-control-custom" />
+            <span asp-validation-for="CurrentValue" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button type="submit"
+                    class="btn btn-primary-custom">
+
+                <i class="bi bi-check-lg me-2"></i>
+
+                Update Goal
+
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary-custom">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
