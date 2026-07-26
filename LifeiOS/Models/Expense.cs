@@ -6,17 +6,26 @@ namespace LifeiOS.Models
     public class Expense
     {
         public int Id { get; set; }
+
         [Required]
-        [MaxLength(100)]
+        [MaxLength(150)]
         public string Title { get; set; } = string.Empty;
 
-        [Column(TypeName = "decimal(18,2)")]
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        [Range(0.01, 9999999999999999.99)]
         public decimal Amount { get; set; }
+
         [Required]
         [MaxLength(100)]
-        public string? Category { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+
+        [MaxLength(500)]
+        public string? Notes { get; set; }
+
         [Required]
-        public DateTime ExpenseDate { get; set; }
+        public DateTime ExpenseDate { get; set; } = DateTime.Today;
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

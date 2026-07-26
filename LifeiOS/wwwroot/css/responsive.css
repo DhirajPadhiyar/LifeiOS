@@ -96,6 +96,7 @@
 
     .card-custom {
         padding: 15px;
+        overflow: visible;
     }
 }
 

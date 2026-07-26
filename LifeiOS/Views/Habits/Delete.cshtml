@@ -1,0 +1,200 @@
+﻿@model LifeiOS.Models.Habit
+
+@{
+    ViewData["Title"] = "Delete Habit";
+}
+
+<div class="page-header">
+
+    <h2>Delete Habit</h2>
+
+    <p>Are you sure you want to delete this habit?</p>
+
+</div>
+
+<div class="card-custom">
+
+    <div class="alert alert-danger">
+
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+        This action cannot be undone.
+
+    </div>
+
+    <dl class="row">
+
+        <dt class="col-sm-3">
+            Habit Name
+        </dt>
+
+        <dd class="col-sm-9 fw-semibold">
+            @Model.Name
+        </dd>
+
+        <dt class="col-sm-3">
+            Frequency
+        </dt>
+
+        <dd class="col-sm-9">
+
+            <span style="
+                display:inline-block;
+                padding:6px 14px;
+                background:#2563eb;
+                color:#fff;
+                border-radius:999px;
+                font-size:13px;
+                font-weight:600;">
+
+                @Model.Frequency
+
+            </span>
+
+        </dd>
+
+        <dt class="col-sm-3">
+            Current Streak
+        </dt>
+
+        <dd class="col-sm-9">
+
+            @if (Model.CurrentStreak == 0)
+            {
+                <span style="
+                    display:inline-block;
+                    padding:6px 14px;
+                    background:#6c757d;
+                    color:#fff;
+                    border-radius:999px;
+                    font-size:13px;
+                    font-weight:600;">
+
+                    🔥 No Streak Yet
+
+                </span>
+            }
+            else
+            {
+                <span style="
+                    display:inline-block;
+                    padding:6px 14px;
+                    background:#dc3545;
+                    color:#fff;
+                    border-radius:999px;
+                    font-size:13px;
+                    font-weight:600;">
+
+                    🔥 @Model.CurrentStreak Day@(Model.CurrentStreak == 1 ? "" : "s")
+
+                </span>
+            }
+
+        </dd>
+
+        <dt class="col-sm-3">
+            Last Completed
+        </dt>
+
+        <dd class="col-sm-9">
+
+            @if (Model.LastCompletedDate == null)
+            {
+                <span style="
+                    display:inline-block;
+                    padding:6px 14px;
+                    background:#6c757d;
+                    color:#fff;
+                    border-radius:999px;
+                    font-size:13px;
+                    font-weight:600;">
+
+                    Never
+
+                </span>
+            }
+            else if (Model.LastCompletedDate.Value.Date == DateTime.Today)
+            {
+                <span style="
+                    display:inline-block;
+                    padding:6px 14px;
+                    background:#198754;
+                    color:#fff;
+                    border-radius:999px;
+                    font-size:13px;
+                    font-weight:600;">
+
+                    Today
+
+                </span>
+            }
+            else if (Model.LastCompletedDate.Value.Date == DateTime.Today.AddDays(-1))
+            {
+                <span style="
+                    display:inline-block;
+                    padding:6px 14px;
+                    background:#ffc107;
+                    color:#212529;
+                    border-radius:999px;
+                    font-size:13px;
+                    font-weight:600;">
+
+                    Yesterday
+
+                </span>
+            }
+            else
+            {
+                <span style="
+                    display:inline-block;
+                    padding:6px 14px;
+                    background:#0dcaf0;
+                    color:#212529;
+                    border-radius:999px;
+                    font-size:13px;
+                    font-weight:600;">
+
+                    @Model.LastCompletedDate.Value.ToString("dd MMM yyyy")
+
+                </span>
+            }
+
+        </dd>
+
+        <dt class="col-sm-3">
+            Created
+        </dt>
+
+        <dd class="col-sm-9">
+            @Model.CreatedAt.ToString("dd MMM yyyy")
+        </dd>
+
+    </dl>
+
+    <hr />
+
+    <form asp-action="Delete" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit"
+                class="btn btn-danger-custom m-1">
+
+            <i class="bi bi-trash me-2"></i>
+
+            Delete Habit
+
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary-custom">
+
+            <i class="bi bi-arrow-left me-2"></i>
+
+            Cancel
+
+        </a>
+
+    </form>
+
+</div>

@@ -1,0 +1,107 @@
+﻿@model LifeiOS.Models.Habit
+
+@{
+    ViewData["Title"] = "Edit Habit";
+}
+
+<div class="page-header mb-4">
+
+    <h2 class="fw-bold">Edit Habit</h2>
+
+    <p class="text-muted">
+        Update your habit information.
+    </p>
+
+</div>
+
+<div class="card-custom">
+
+    <form asp-action="Edit" method="post">
+
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="CreatedAt" type="hidden" />
+        <input asp-for="CurrentStreak" type="hidden" />
+        <input asp-for="LastCompletedDate" type="hidden" />
+
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger mb-3">
+        </div>
+
+        <div class="mb-3">
+
+            <label asp-for="Name"
+                   class="form-label">
+            </label>
+
+            <input asp-for="Name"
+                   class="form-control-custom" />
+
+            <span asp-validation-for="Name"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label asp-for="Frequency"
+                   class="form-label">
+            </label>
+
+            <select asp-for="Frequency"
+                    asp-items="Html.GetEnumSelectList<HabitFrequency>()"
+                    class="form-select-custom">
+            </select>
+
+            <span asp-validation-for="Frequency"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="mb-4">
+
+            <label asp-for="Description"
+                   class="form-label">
+            </label>
+
+            <textarea asp-for="Description"
+                      rows="5"
+                      class="form-control-custom"
+                      placeholder="Write a short description...">
+            </textarea>
+
+            <span asp-validation-for="Description"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button type="submit"
+                    class="btn btn-primary-custom">
+
+                <i class="bi bi-check-lg me-2"></i>
+
+                Save Habit
+
+            </button>
+
+            <a asp-action="Index"
+               class="btn-custom btn-secondary-custom">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

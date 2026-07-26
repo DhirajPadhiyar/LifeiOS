@@ -1,0 +1,75 @@
+﻿@model LifeiOS.Models.Expense
+
+@{
+    ViewData["Title"] = "Delete Expense";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Delete Expense</h2>
+
+        <p class="text-muted mb-0">
+            Are you sure you want to delete this expense?
+        </p>
+
+    </div>
+
+    <a asp-action="Index" class="btn btn-secondary-custom">
+
+        <i class="bi bi-arrow-left me-2"></i>
+
+        Back
+
+    </a>
+
+</div>
+
+<div class="card-custom">
+
+    <div class="alert alert-danger">
+
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+        This action cannot be undone.
+
+    </div>
+
+    <dl class="row">
+
+        <dt class="col-sm-3">Title</dt>
+        <dd class="col-sm-9">@Model.Title</dd>
+
+        <dt class="col-sm-3">Amount</dt>
+        <dd class="col-sm-9 fw-bold">@Model.Amount</dd>
+
+        <dt class="col-sm-3">Category</dt>
+        <dd class="col-sm-9">@Model.Category</dd>
+
+        <dt class="col-sm-3">Expense Date</dt>
+        <dd class="col-sm-9">@Model.ExpenseDate.ToString("dd MMM yyyy")</dd>
+
+    </dl>
+
+    <form asp-action="Delete">
+
+        <input asp-for="Id" type="hidden" />
+
+        <button type="submit" class="btn btn-danger">
+
+            <i class="bi bi-trash me-2"></i>
+
+            Delete
+
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary-custom">
+
+            Cancel
+
+        </a>
+
+    </form>
+
+</div>

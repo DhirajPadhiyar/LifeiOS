@@ -1,0 +1,110 @@
+﻿@model LifeiOS.Models.Expense
+
+@{
+    ViewData["Title"] = "Expense Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Expense Details</h2>
+
+        <p class="text-muted mb-0">
+            View complete expense information.
+        </p>
+
+    </div>
+
+    <a asp-action="Index" class="btn btn-secondary-custom">
+
+        <i class="bi bi-arrow-left me-2"></i>
+
+        Back
+
+    </a>
+
+</div>
+
+<div class="card-custom">
+
+    <div class="row">
+
+        <div class="col-md-6 mb-4">
+
+            <label class="form-label fw-semibold">Title</label>
+
+            <div>@Model.Title</div>
+
+        </div>
+
+        <div class="col-md-6 mb-4">
+
+            <label class="form-label fw-semibold">Amount</label>
+
+            <div class="fw-bold">@Model.Amount</div>
+
+        </div>
+
+        <div class="col-md-6 mb-4">
+
+            <label class="form-label fw-semibold">Category</label>
+
+            <div>@Model.Category</div>
+
+        </div>
+
+        <div class="col-md-6 mb-4">
+
+            <label class="form-label fw-semibold">Expense Date</label>
+
+            <div>@Model.ExpenseDate.ToString("dd MMM yyyy")</div>
+
+        </div>
+
+        <div class="col-12 mb-4">
+
+            <label class="form-label fw-semibold">Notes</label>
+
+            <div>
+
+                @(string.IsNullOrWhiteSpace(Model.Notes)
+                    ? "No notes available."
+                    : Model.Notes)
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 mb-4">
+
+            <label class="form-label fw-semibold">Created On</label>
+
+            <div>@Model.CreatedAt.ToString("dd MMM yyyy hh:mm tt")</div>
+
+        </div>
+
+    </div>
+
+    <div class="d-flex gap-2 mt-3">
+
+        <a asp-action="Edit"
+           asp-route-id="@Model.Id"
+           class="btn btn-primary-custom">
+
+            <i class="bi bi-pencil-square me-2"></i>
+
+            Edit
+
+        </a>
+
+        <a asp-action="Index"
+           class="btn btn-secondary-custom">
+
+            Back
+
+        </a>
+
+    </div>
+
+</div>

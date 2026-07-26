@@ -126,7 +126,8 @@ namespace LifeiOS.Controllers
                 _context.Add(goal);
                 await _context.SaveChangesAsync();
 
-                TempData["Success"] = "Goal created successfully.";
+                TempData["ToastMessage"] = "Goal created successfully.";
+                TempData["ToastType"] = "success";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -213,7 +214,8 @@ namespace LifeiOS.Controllers
                     throw;
                 }
 
-                TempData["Success"] = "Goal updated successfully.";
+                TempData["ToastMessage"] = "Goal updated successfully.";
+                TempData["ToastType"] = "info";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -251,7 +253,8 @@ namespace LifeiOS.Controllers
                 _context.Goals.Remove(goal);
                 await _context.SaveChangesAsync();
 
-                TempData["Success"] = "Goal deleted successfully.";
+                TempData["ToastMessage"] = "Goal deleted successfully.";
+                TempData["ToastType"] = "delete";
             }
 
             return RedirectToAction(nameof(Index));

@@ -1,0 +1,162 @@
+﻿@model LifeiOS.Models.Habit
+
+@{
+    ViewData["Title"] = "Habit Details";
+}
+
+<div class="page-header mb-4">
+
+    <h2 class="fw-bold">Habit Details</h2>
+
+    <p class="text-muted">
+        View complete information about your habit.
+    </p>
+
+</div>
+
+<div class="card-custom">
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+
+            <label class="form-label text-muted">
+                Habit Name
+            </label>
+
+            <div class="fw-semibold fs-5">
+                @Model.Name
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <label class="form-label text-muted">
+                Frequency
+            </label>
+
+            <div>
+
+                <span class="badge bg-primary">
+                    @Model.Frequency
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="col-12">
+
+            <label class="form-label text-muted">
+                Description
+            </label>
+
+            <div>
+
+                @if (string.IsNullOrWhiteSpace(Model.Description))
+                {
+                    <span class="text-muted">
+                        No description added yet.
+                    </span>
+                }
+                else
+                {
+                    @Model.Description
+                }
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <label class="form-label text-muted">
+                Current Streak
+            </label>
+
+            <div>
+
+                <span class="badge bg-danger">
+
+                    🔥 @Model.CurrentStreak Day(s)
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <label class="form-label text-muted">
+                Last Completed
+            </label>
+
+            <div>
+
+                @if (Model.LastCompletedDate == null)
+                {
+                    <span class="text-muted">
+                        Never
+                    </span>
+                }
+                else if (Model.LastCompletedDate.Value.Date == DateTime.Today)
+                {
+                    <span class="badge bg-success">
+                        Today
+                    </span>
+                }
+                else if (Model.LastCompletedDate.Value.Date == DateTime.Today.AddDays(-1))
+                {
+                    <span class="badge bg-warning text-dark">
+                        Yesterday
+                    </span>
+                }
+                else
+                {
+                    @Model.LastCompletedDate.Value.ToString("dd MMM yyyy")
+                }
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <label class="form-label text-muted">
+                Created On
+            </label>
+
+            <div>
+                @Model.CreatedAt.ToString("dd MMM yyyy")
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr />
+
+    <div class="d-flex gap-2">
+
+        <a asp-action="Edit"
+           asp-route-id="@Model.Id"
+           class="btn btn-primary-custom">
+
+            <i class="bi bi-pencil me-2"></i>
+
+            Edit
+
+        </a>
+
+        <a asp-action="Index"
+           class="btn btn-secondary-custom">
+
+            Back
+
+        </a>
+
+    </div>
+
+</div>

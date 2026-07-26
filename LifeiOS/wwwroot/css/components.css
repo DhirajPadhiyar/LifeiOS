@@ -201,6 +201,10 @@ textarea.form-control-custom {
     border-collapse: collapse;
     background: var(--white);
 }
+.table-responsive {
+    overflow-x: auto;
+    overflow-y: visible;
+}
 
     .table-custom thead {
         background: #F1F5F9;
@@ -269,10 +273,10 @@ textarea.form-control-custom {
     margin-top: 6px;
 }
 
-.dashboard-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+.dashboard-stats{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
     .dashboard-stats h4 {
         margin: 0;
@@ -729,3 +733,37 @@ textarea.form-control-custom {
         border-color: var(--primary);
         color: #fff;
     }
+.dashboard-card {
+    min-height: 130px;
+    padding: 1.5rem;
+}
+.dashboard-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.expense-currency {
+    font-size: .75em;
+    vertical-align: top;
+    margin-right: 3px;
+    color: var(--primary);
+}
+
+.dashboard-statss h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+}
+
+.dashboard-statss p {
+    text-align: center;
+    width: 100%;
+    margin: 6px 0 0;
+}
+.dashboard-card-icon {
+    width: 58px;
+    height: 58px;
+    font-size: 1.6rem;
+}

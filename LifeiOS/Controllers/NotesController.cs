@@ -134,7 +134,7 @@ namespace LifeiOS.Controllers
                 await _context.SaveChangesAsync();
 
                 TempData["ToastMessage"] = "Note updated successfully.";
-                TempData["ToastType"] = "success";
+                TempData["ToastType"] = "info";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -195,7 +195,7 @@ namespace LifeiOS.Controllers
                 await _context.SaveChangesAsync();
 
                 TempData["ToastMessage"] = "Note deleted successfully.";
-                TempData["ToastType"] = "success";
+                TempData["ToastType"] = "delete";
             }
 
             return RedirectToAction(nameof(Index));

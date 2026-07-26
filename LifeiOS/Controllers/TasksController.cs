@@ -200,7 +200,7 @@ namespace LifeiOS.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["ToastType"] = "success";
+            TempData["ToastType"] = "info";
             TempData["ToastMessage"] = "Task updated successfully.";
 
             return RedirectToAction(nameof(Index));
@@ -234,7 +234,7 @@ namespace LifeiOS.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            TempData["ToastType"] = "success";
+            TempData["ToastType"] = "delete";
             TempData["ToastMessage"] = "Task deleted successfully.";
 
             return RedirectToAction(nameof(Index));

@@ -28,6 +28,9 @@ namespace LifeiOS.Data
             builder.Entity<Goal>()
                 .Property(g => g.CurrentValue)
                 .HasPrecision(18, 2);
+            builder.Entity<Expense>()
+                 .Property(e => e.Amount)
+                 .HasPrecision(18, 2);
         }
     }
 }
