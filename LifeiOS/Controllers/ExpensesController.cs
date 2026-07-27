@@ -19,9 +19,10 @@ namespace LifeiOS.Controllers
         // GET: Expenses
         // GET: Expenses
         public async Task<IActionResult> Index(
-            string? searchString,
-            string? category,
-            int page = 1)
+     string searchString,
+     string category,
+     string sortOrder,
+     int page = 1)
         {
             const int pageSize = 10;
 
@@ -40,6 +41,24 @@ namespace LifeiOS.Controllers
             {
                 query = query.Where(e => e.Category == category);
             }
+            ViewBag.Categories = new List<string>
+{
+    "Food",
+    "Transport",
+    "Shopping",
+    "Bills",
+    "Health",
+    "Education",
+    "Entertainment",
+    "Travel",
+    "Investment",
+    "Subscription",
+    "Personal",
+    "Business",
+    "Other"
+};
+
+            ViewBag.CurrentCategory = category;
 
             // Dashboard Cards
             ViewBag.TotalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
@@ -59,11 +78,34 @@ namespace LifeiOS.Controllers
             // Preserve Filters
             ViewBag.SearchString = searchString;
             ViewBag.Category = category;
+            ViewBag.CurrentSort = sortOrder;
+
+            ViewBag.TitleSort = sortOrder == "title" ? "title_desc" : "title";
+
+            ViewBag.AmountSort = sortOrder == "amount" ? "amount_desc" : "amount";
+
+            ViewBag.DateSort = sortOrder == "date" ? "date_desc" : "date";
 
             // Sorting
             query = query
                 .OrderByDescending(e => e.ExpenseDate)
                 .ThenByDescending(e => e.CreatedAt);
+            query = sortOrder switch
+            {
+                "title" => query.OrderBy(e => e.Title),
+
+                "title_desc" => query.OrderByDescending(e => e.Title),
+
+                "amount" => query.OrderBy(e => e.Amount),
+
+                "amount_desc" => query.OrderByDescending(e => e.Amount),
+
+                "date" => query.OrderBy(e => e.ExpenseDate),
+
+                "date_desc" => query.OrderByDescending(e => e.ExpenseDate),
+
+                _ => query.OrderByDescending(e => e.CreatedAt)
+            };
 
             // Pagination
             int totalItems = await query.CountAsync();

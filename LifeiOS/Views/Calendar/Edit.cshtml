@@ -1,0 +1,84 @@
+﻿@model LifeiOS.Models.CalendarEvent
+
+@{
+    ViewData["Title"] = "Edit Event";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Edit Event</h2>
+        <p class="text-muted mb-0">
+            Update your calendar event.
+        </p>
+    </div>
+</div>
+
+<div class="card-custom mt-4">
+    <div class="card-body">
+
+        <form asp-action="Edit" method="post">
+
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control-custom" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" rows="4" class="form-control-custom"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="StartDate" class="form-label"></label>
+                    <input asp-for="StartDate" type="datetime-local" class="form-control-custom" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="EndDate" class="form-label"></label>
+                    <input asp-for="EndDate" type="datetime-local" class="form-control-custom" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="IsAllDay" class="form-check-input" />
+                <label asp-for="IsAllDay" class="form-check-label"></label>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Color" class="form-label">Event Color</label>
+                <input asp-for="Color"
+                       type="color"
+                       class="form-control form-control-color" />
+            </div>
+
+            <button type="submit" class="btn btn-primary-custom">
+                <i class="bi bi-check-circle"></i>
+                Update Event
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary-custom">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

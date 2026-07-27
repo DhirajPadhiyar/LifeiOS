@@ -1,0 +1,145 @@
+﻿@model LifeiOS.ViewModels.CalendarViewModel
+
+@{
+    ViewData["Title"] = "Calendar";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            Calendar
+        </h2>
+
+        <p class="text-muted mb-0">
+            Monthly calendar view.
+        </p>
+
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+
+        <a asp-action="Index"
+           class="btn btn-secondary-custom">
+
+            <i class="bi bi-list-ul me-2"></i>
+
+            List View
+
+        </a>
+
+        <a asp-action="Create"
+           class="btn btn-primary-custom">
+
+            <i class="bi bi-plus-lg me-2"></i>
+
+            Add Event
+
+        </a>
+
+    </div>
+
+</div>
+<div class="card-custom mb-4">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <a asp-action="Month"
+               asp-route-month="@Model.CurrentMonth.AddMonths(-1).Month"
+               asp-route-year="@Model.CurrentMonth.AddMonths(-1).Year"
+               class="btn btn-outline-custom">
+
+                <i class="bi bi-chevron-left"></i>
+
+            </a>
+
+            <h3 class="fw-bold mb-0">
+
+                @Model.CurrentMonth.ToString("MMMM yyyy")
+
+            </h3>
+
+            <a asp-action="Month"
+               asp-route-month="@Model.CurrentMonth.AddMonths(1).Month"
+               asp-route-year="@Model.CurrentMonth.AddMonths(1).Year"
+               class="btn btn-outline-custom">
+
+                <i class="bi bi-chevron-right"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="calendar-grid calendar-header">
+
+    <div>Sun</div>
+
+    <div>Mon</div>
+
+    <div>Tue</div>
+
+    <div>Wed</div>
+
+    <div>Thu</div>
+
+    <div>Fri</div>
+
+    <div>Sat</div>
+
+</div>
+<div class="calendar-grid">
+
+    @* Empty cells before the first day *@
+
+    @for (int i = 0; i < Model.FirstDayOfWeek; i++)
+    {
+        <div class="calendar-cell empty"></div>
+    }
+
+    @* Days *@
+
+    @for (int day = 1; day <= Model.DaysInMonth; day++)
+    {
+        var currentDate = new DateTime(Model.Year, Model.Month, day);
+
+        var events = Model.Events
+            .Where(e => e.StartDate.Date == currentDate.Date)
+            .ToList();
+
+        <div class="calendar-cell @(currentDate.Date == DateTime.Today ? "today" : "")">
+
+            <div class="calendar-day">
+
+                @day
+
+            </div>
+
+            @foreach (var item in events.Take(3))
+            {
+                @if (events.Count > 3)
+                {
+                    <div class="calendar-more">
+
+                        +@(events.Count - 3) more
+
+                    </div>
+                }
+                <a asp-action="Details"
+                   asp-route-id="@item.Id"
+                   class="calendar-event"
+                   style="background:@(string.IsNullOrWhiteSpace(item.Color) ? "#2563EB" : item.Color)">
+
+                    @item.Title
+
+                </a>
+            }
+
+        </div>
+    }
+
+</div>

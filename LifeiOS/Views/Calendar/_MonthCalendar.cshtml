@@ -1,0 +1,138 @@
+﻿@model IEnumerable<LifeiOS.Models.CalendarEvent>
+
+@{
+    var today = DateTime.Today;
+
+    int currentMonth = (int)ViewBag.Month;
+    int currentYear = (int)ViewBag.Year;
+
+    var firstDay = new DateTime(currentYear, currentMonth, 1);
+
+    var daysInMonth = DateTime.DaysInMonth(currentYear, currentMonth);
+
+    var firstDayOfWeek = (int)firstDay.DayOfWeek;
+
+    var previous = firstDay.AddMonths(-1);
+
+    var next = firstDay.AddMonths(1);
+}
+<div class="card-custom mb-4">
+
+    <div class="card-body py-3">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div class="d-flex align-items-center gap-2">
+
+                <a asp-action="Index"
+                   asp-route-viewMode="month"
+                   asp-route-month="@previous.Month"
+                   asp-route-year="@previous.Year"
+                   class="btn btn-outline-custom btn-sm">
+
+                    <i class="bi bi-chevron-left"></i>
+
+                </a>
+
+                <h3 class="fw-bold mb-0">
+
+                    @firstDay.ToString("MMMM yyyy")
+
+                </h3>
+
+                <a asp-action="Index"
+                   asp-route-viewMode="month"
+                   asp-route-month="@next.Month"
+                   asp-route-year="@next.Year"
+                   class="btn btn-outline-custom btn-sm">
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+            </div>
+
+            <a asp-action="Index"
+               asp-route-viewMode="month"
+               class="btn btn-primary-custom btn-sm">
+
+                Today
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="calendar-grid calendar-header">
+
+    <div>Sun</div>
+    <div>Mon</div>
+    <div>Tue</div>
+    <div>Wed</div>
+    <div>Thu</div>
+    <div>Fri</div>
+    <div>Sat</div>
+
+</div>
+@if (!Model.Any())
+{
+    <div class="alert alert-info mb-4">
+
+        <i class="bi bi-info-circle me-2"></i>
+
+        No events found for this month.
+
+    </div>
+}
+<div class="calendar-grid">
+
+    @for (int cell = 0; cell < 42; cell++)
+    {
+        var date = firstDay.AddDays(cell - firstDayOfWeek);
+
+        bool isCurrentMonth = date.Month == currentMonth;
+
+        var dayEvents = Model
+            .Where(e => e.StartDate.Date == date.Date)
+            .ToList();
+
+        <div class="calendar-cell
+            @(date.Date == today ? "today" : "")
+            @(!isCurrentMonth ? "other-month" : "")">
+
+            <div class="calendar-day">
+
+                @date.Day
+
+            </div>
+
+            @foreach (var item in dayEvents.Take(3))
+            {
+                <a asp-action="Details"
+                   title="@item.Description"
+                   asp-route-id="@item.Id"
+                   class="calendar-event"
+                   style="background:@(string.IsNullOrWhiteSpace(item.Color)
+                                                          ? "#2563EB"
+                                                          : item.Color)">
+
+    @item.Title
+
+</a>
+        }
+
+        @if (dayEvents.Count > 3)
+{
+    <div class="calendar-more">
+
+        +@(dayEvents.Count - 3) more
+
+    </div>
+}
+
+</div>
+}
+
+</div>

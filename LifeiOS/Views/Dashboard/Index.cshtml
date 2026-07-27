@@ -1,7 +1,7 @@
-﻿@{
+﻿@model LifeiOS.ViewModels.DashboardViewModel
+@{
     ViewData["Title"] = "Dashboard";
 }
-
 <div class="page-header mb-30">
 
     <h1>Dashboard</h1>
@@ -13,66 +13,66 @@
 </div>
 <div class="dashboard-stats">
 
-    <div class="dashboard-card">
+    <div class="dashboard-summary-grid">
 
-        <div class="dashboard-card-icon bg-primary">
-            <i class="bi bi-check2-square"></i>
+        <div class="summary-card">
+                <div class="summary-icon summary-primary">
+                    <i class="bi bi-check2-square"></i>
+                </div>
+            <div class="summary-content">
+                <h6>Total Tasks</h6>
+                <h2>@Model.TotalTasks</h2>
+            </div>
         </div>
 
-        <div class="dashboard-card-content">
-
-            <h5>Total Tasks</h5>
-
-            <h2>24</h2>
-
+        <div class="summary-card">
+            <div class="summary-icon summary-success">
+                <i class="bi bi-journal-text"></i>
+            </div>
+            <div class="summary-content">
+                <h6>Notes</h6>
+                <h2>@Model.TotalNotes</h2>
+            </div>
         </div>
 
-    </div>
-
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon bg-success">
-            <i class="bi bi-journal-text"></i>
+        <div class="summary-card">
+            <div class="summary-icon summary-warning">
+                <i class="bi bi-bullseye"></i>
+            </div>
+            <div class="summary-content">
+                <h6>Goals</h6>
+                <h2>@Model.TotalGoals</h2>
+            </div>
         </div>
 
-        <div class="dashboard-card-content">
-
-            <h5>Notes</h5>
-
-            <h2>18</h2>
-
+        <div class="summary-card">
+            <div class="summary-icon summary-danger">
+                <i class="bi bi-wallet2"></i>
+            </div>
+            <div class="summary-content">
+                <h6>Expenses</h6>
+                <h2>₹@Model.TotalExpensesThisMonth.ToString("N0")</h2>
+            </div>
         </div>
 
-    </div>
-
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon bg-warning">
-            <i class="bi bi-bullseye"></i>
+        <div class="summary-card">
+            <div class="summary-icon summary-info">
+                <i class="bi bi-activity"></i>
+            </div>
+            <div class="summary-content">
+                <h6>Habits</h6>
+                <h2>@Model.TotalHabits</h2>
+            </div>
         </div>
 
-        <div class="dashboard-card-content">
-
-            <h5>Goals</h5>
-
-            <h2>5</h2>
-
-        </div>
-
-    </div>
-
-    <div class="dashboard-card">
-
-        <div class="dashboard-card-icon bg-danger">
-            <i class="bi bi-wallet2"></i>
-        </div>
-
-        <div class="dashboard-card-content">
-
-            <h5>Expenses</h5>
-
-            <h2>₹18,500</h2>
-
+        <div class="summary-card">
+            <div class="summary-icon summary-secondary">
+                <i class="bi bi-calendar-event"></i>
+            </div>
+            <div class="summary-content">
+                <h6>Events</h6>
+                <h2>@Model.TotalEvents</h2>
+            </div>
         </div>
 
     </div>
@@ -198,27 +198,43 @@
 
             <ul class="dashboard-list">
 
-                <li>
-                    <i class="bi bi-check-circle-fill text-success"></i>
-                    Complete Dashboard UI
-                </li>
+                @if (Model.RecentTasks.Any())
+                {
+                    @foreach (var task in Model.RecentTasks)
+                    {
+                        <li>
 
-                <li>
-                    <i class="bi bi-clock text-warning"></i>
-                    Read 20 Pages
-                </li>
+                            @if (task.IsCompleted)
+                            {
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-clock text-warning"></i>
+                            }
 
-                <li>
-                    <i class="bi bi-circle text-primary"></i>
-                    Workout
-                </li>
+                            <span>@task.Title</span>
 
-                <li>
-                    <i class="bi bi-circle text-primary"></i>
-                    Meditation
-                </li>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="text-muted">
+                        No tasks found.
+                    </li>
+                }
 
             </ul>
+            <div class="dashboard-section-header">
+                <a asp-controller="Tasks"
+                   asp-action="Index"
+                   class="dashboard-view-all">
+                    View All
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+            </div>
 
         </div>
 
@@ -240,24 +256,33 @@
 
             <ul class="dashboard-list">
 
-                <li>
-                    Project Meeting Notes
-                </li>
-
-                <li>
-                    Business Ideas
-                </li>
-
-                <li>
-                    Book Summary
-                </li>
-
-                <li>
-                    Shopping List
-                </li>
+                @if (Model.LatestNotes.Any())
+                {
+                    @foreach (var note in Model.LatestNotes)
+                    {
+                        <li>
+                            <i class="bi bi-journal-text text-primary"></i>
+                            <span>@note.Title</span>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="text-muted">
+                        No notes available.
+                    </li>
+                }
 
             </ul>
+            <div class="dashboard-section-header">
+                <a asp-controller="Notes"
+                   asp-action="Index"
+                   class="dashboard-view-all">
+                    View All
+                    <i class="bi bi-arrow-right"></i>
+                </a>
 
+            </div>
         </div>
 
     </div>
@@ -272,50 +297,76 @@
         <div class="card-header-custom">
 
             <h3 class="card-title-custom">
-
                 Goal Progress
-
             </h3>
 
         </div>
 
         <div class="card-body-custom">
 
-            <div class="progress-item">
+            @if (Model.Goals.Any())
+            {
+                @foreach (var goal in Model.Goals)
+                {
+                    <div class="progress-item">
 
-                <div class="progress-header">
+                        <div class="progress-header">
 
-                    <span>Learn ASP.NET Core MVC</span>
+                            <span>@goal.GoalTitle</span>
 
-                    <span>75%</span>
+                            <span>@goal.Progress%</span>
+
+                        </div>
+
+                        @if (goal.TargetValue > 0)
+                        {
+                            <div class="goal-progress-values">
+
+                                <span>
+                                    @goal.CurrentValue.ToString("N0")
+                                </span>
+
+                                <span class="goal-separator">/</span>
+
+                                <span>
+                                    @(goal.TargetValue?.ToString("N0") ?? "0")
+                                </span>
+
+                            </div>
+                        }
+                        <div class="progress-bar-custom">
+
+                            <div class="progress-fill"
+                                 style="width:@goal.Progress%;">
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="dashboard-empty">
+
+                    <i class="bi bi-bullseye"></i>
+
+                    <p>No goals available.</p>
 
                 </div>
+            }
 
-                <div class="progress-bar-custom">
+            <div class="dashboard-section-header">
 
-                    <div class="progress-fill"
-                         style="width:75%;"></div>
+                <a asp-controller="Goals"
+                   asp-action="Index"
+                   class="dashboard-view-all">
 
-                </div>
+                    View All
 
-            </div>
+                    <i class="bi bi-arrow-right"></i>
 
-            <div class="progress-item">
-
-                <div class="progress-header">
-
-                    <span>Fitness</span>
-
-                    <span>60%</span>
-
-                </div>
-
-                <div class="progress-bar-custom">
-
-                    <div class="progress-fill"
-                         style="width:60%;"></div>
-
-                </div>
+                </a>
 
             </div>
 
@@ -330,26 +381,72 @@
         <div class="card-header-custom">
 
             <h3 class="card-title-custom">
-
                 Today's Schedule
-
             </h3>
+            <p class="dashboard-subtitle">
+
+                @(Model.TodayEvents.Count) event(s) today
+
+            </p>
 
         </div>
 
         <div class="card-body-custom">
 
-            <ul class="dashboard-list">
+            @if (Model.TodayEvents.Any())
+            {
+                <ul class="dashboard-list">
 
-                <li>08:00 AM - Morning Routine</li>
+                    @foreach (var item in Model.TodayEvents)
+                    {
+                        <li>
 
-                <li>10:00 AM - Coding</li>
+                            <i class="bi bi-calendar-event text-primary"></i>
 
-                <li>03:00 PM - Gym</li>
+                            <span>
 
-                <li>09:00 PM - Reading</li>
+                                @if (item.IsAllDay)
+                                {
+                                    <strong>All Day</strong>
+                                }
+                                else
+                                {
+                                    @item.StartDate.ToString("hh:mm tt")
+                                }
 
-            </ul>
+                                - @item.Title
+
+                            </span>
+
+                        </li>
+                    }
+
+                </ul>
+            }
+            else
+            {
+                <div class="dashboard-empty">
+
+                    <i class="bi bi-calendar-x"></i>
+
+                    <p>No events scheduled for today.</p>
+
+                </div>
+            }
+
+            <div class="dashboard-section-header">
+
+                <a asp-controller="Calendar"
+                   asp-action="Index"
+                   class="dashboard-view-all">
+
+                    View All
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
 
         </div>
 
@@ -368,11 +465,15 @@
 
             data:{
 
-                labels:['Completed','Pending','In Progress'],
+                labels:['Completed','Pending','Overdue'],
 
                 datasets:[{
 
-                    data:[15,7,2],
+                            data:[
+            @Model.CompletedTasks,
+            @Model.PendingTasks,
+            @Model.OverdueTasks
+        ],
 
                     backgroundColor:[
 
@@ -406,43 +507,18 @@
 
             data:{
 
-                labels:[
-
-                    'Jan',
-
-                    'Feb',
-
-                    'Mar',
-
-                    'Apr',
-
-                    'May',
-
-                    'Jun'
-
-                ],
+        labels:@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ExpenseMonths)),
 
                 datasets:[{
 
                     label:'Expenses',
 
-                    data:[
+                    data:@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.MonthlyExpenses)),
 
-                        12000,
+                    backgroundColor:'#2563EB',
+                        borderRadius:8,
 
-                        9000,
-
-                        18000,
-
-                        14000,
-
-                        22000,
-
-                        17000
-
-                    ],
-
-                    backgroundColor:'#2563EB'
+        maxBarThickness:40
 
                 }]
 

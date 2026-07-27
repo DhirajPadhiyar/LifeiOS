@@ -58,6 +58,29 @@
     </div>
 
 </form>
+<div class="category-filter mb-4">
+
+    <a asp-action="Index"
+       asp-route-searchString="@ViewBag.SearchString"
+       class="category-chip @(string.IsNullOrEmpty(ViewBag.CurrentCategory) ? "active" : "")">
+
+        All
+
+    </a>
+
+    @foreach (var item in (List<string>)ViewBag.Categories)
+    {
+        <a asp-action="Index"
+           asp-route-category="@item"
+           asp-route-searchString="@ViewBag.SearchString"
+           class="category-chip @(ViewBag.CurrentCategory == item ? "active" : "")">
+
+            @item
+
+        </a>
+    }
+
+</div>
 <div class="row g-3 my-4">
 
     <div class="col-lg-3 col-md-6">
@@ -184,13 +207,52 @@ else
 
                     <tr>
 
-                        <th>Title</th>
+                    <th>
+
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewBag.TitleSort"
+                           asp-route-searchString="@ViewBag.SearchString"
+                           asp-route-category="@ViewBag.CurrentCategory">
+
+                            Title
+
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+
+                        </a>
+
+                    </th>
 
                         <th>Category</th>
 
-                        <th>Amount</th>
+                    <th>
 
-                        <th>Expense Date</th>
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewBag.AmountSort"
+                           asp-route-searchString="@ViewBag.SearchString"
+                           asp-route-category="@ViewBag.CurrentCategory">
+
+                            Amount
+
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+
+                        </a>
+
+                    </th>
+
+                    <th>
+
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewBag.DateSort"
+                           asp-route-searchString="@ViewBag.SearchString"
+                           asp-route-category="@ViewBag.CurrentCategory">
+
+                            Expense Date
+
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+
+                        </a>
+
+                    </th>
 
                         <th>Action</th>
 
@@ -308,6 +370,7 @@ else
 
                 <a class="page-link"
                    asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.CurrentSort"
                    asp-route-page="@(ViewBag.CurrentPage - 1)"
                    asp-route-searchString="@ViewBag.SearchString"
                    asp-route-category="@ViewBag.Category">
@@ -325,6 +388,7 @@ else
                     <a class="page-link"
                        asp-action="Index"
                        asp-route-page="@i"
+                       asp-route-sortOrder="@ViewBag.CurrentSort"
                        asp-route-searchString="@ViewBag.SearchString"
                        asp-route-category="@ViewBag.Category">
 
@@ -339,6 +403,7 @@ else
 
                 <a class="page-link"
                    asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.CurrentSort"
                    asp-route-page="@(ViewBag.CurrentPage + 1)"
                    asp-route-searchString="@ViewBag.SearchString"
                    asp-route-category="@ViewBag.Category">

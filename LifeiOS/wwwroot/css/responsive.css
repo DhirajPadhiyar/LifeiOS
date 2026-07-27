@@ -154,3 +154,30 @@
     line-height: 1.2;
     white-space: nowrap;
 }
+@media(max-width:768px) {
+
+    .calendar-grid {
+        gap: 6px;
+    }
+
+    .calendar-cell {
+        min-height: 90px;
+        padding: 6px;
+    }
+
+    .calendar-day {
+        width: 24px;
+        height: 24px;
+        font-size: .8rem;
+    }
+
+    .calendar-event {
+        font-size: .65rem;
+        padding: 2px 5px;
+    }
+
+    .calendar-view-switch {
+        width: 100%;
+        justify-content: center;
+    }
+}

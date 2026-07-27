@@ -15,7 +15,7 @@ namespace LifeiOS.Data
         public DbSet<Habit> Habits { get; set; }
         public DbSet<Goal> Goals { get; set; } 
         public DbSet<Expense> Expenses { get; set; }
-        public DbSet<CalenderEvent> CalenderEvents { get; set; }
+        public DbSet<CalendarEvent> CalendarEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

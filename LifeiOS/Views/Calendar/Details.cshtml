@@ -1,0 +1,78 @@
+﻿@model LifeiOS.Models.CalendarEvent
+
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Event Details</h2>
+        <p class="text-muted mb-0">
+            View event information.
+        </p>
+    </div>
+</div>
+
+<div class="card-custom mt-4">
+    <div class="card-body">
+
+        <dl class="row">
+
+            <dt class="col-sm-3">Title</dt>
+            <dd class="col-sm-9">@Model.Title</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.Description) ? "-" : Model.Description)
+            </dd>
+
+            <dt class="col-sm-3">Start Date</dt>
+            <dd class="col-sm-9">
+                @Model.StartDate.ToString("dd MMM yyyy hh:mm tt")
+            </dd>
+
+            <dt class="col-sm-3">End Date</dt>
+            <dd class="col-sm-9">
+                @Model.EndDate.ToString("dd MMM yyyy hh:mm tt")
+            </dd>
+
+            <dt class="col-sm-3">All Day</dt>
+            <dd class="col-sm-9">
+                @(Model.IsAllDay ? "Yes" : "No")
+            </dd>
+
+            <dt class="col-sm-3">Color</dt>
+            <dd class="col-sm-9">
+                <span style="
+                    display:inline-block;
+                    width:24px;
+                    height:24px;
+                    border-radius:50%;
+                    background:@Model.Color;
+                    border:1px solid #ccc;">
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">Created</dt>
+            <dd class="col-sm-9">
+                @Model.CreatedAt.ToString("dd MMM yyyy hh:mm tt")
+            </dd>
+
+        </dl>
+
+        <div class="mt-4">
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-primary-custom">
+                <i class="bi bi-pencil p-1"></i>
+                Edit
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-secondary-custom">
+                Back
+            </a>
+        </div>
+
+    </div>
+</div>
