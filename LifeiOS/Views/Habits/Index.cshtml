@@ -66,101 +66,6 @@
     </div>
 
 </form>
-
-<!-- Statistics -->
-
-<div class="row g-3 mb-4">
-
-    <div class="col-md-3">
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-card-icon">
-
-                <i class="bi bi-check2-square"></i>
-
-            </div>
-
-            <div class="dashboard-stats">
-
-                <h3>@ViewBag.TotalHabits</h3>
-
-                <p>Total Habits</p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-3">
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-card-icon text-success">
-
-                <i class="bi bi-check-circle"></i>
-
-            </div>
-
-            <div class="dashboard-stats">
-
-                <h3>@ViewBag.CompletedToday</h3>
-
-                <p>Completed Today</p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-3">
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-card-icon text-warning">
-
-                <i class="bi bi-hourglass-split"></i>
-
-            </div>
-
-            <div class="dashboard-stats">
-
-                <h3>@ViewBag.PendingToday</h3>
-
-                <p>Pending Today</p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-3">
-
-        <div class="dashboard-card">
-
-            <div class="dashboard-card-icon text-danger">
-
-                <i class="bi bi-fire"></i>
-
-            </div>
-
-            <div class="dashboard-stats">
-
-                <h3>@ViewBag.BestStreak</h3>
-
-                <p>Best Streak</p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
 <!-- Filter Chips -->
 
 <div class="category-chips mb-4">
@@ -210,6 +115,102 @@
     </a>
 
 </div>
+
+<!-- Statistics -->
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon summary-primary">
+
+                <i class="bi bi-check2-square"></i>
+
+            </div>
+
+            <div class="dashboard-stats">
+
+                <h3>@ViewBag.TotalHabits</h3>
+
+                <p>Total Habits</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon summary-success">
+
+                <i class="bi bi-check-circle"></i>
+
+            </div>
+
+            <div class="dashboard-stats">
+
+                <h3>@ViewBag.CompletedToday</h3>
+
+                <p>Completed Today</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon summary-warning">
+
+                <i class="bi bi-hourglass-split"></i>
+
+            </div>
+
+            <div class="dashboard-stats">
+
+                <h3>@ViewBag.PendingToday</h3>
+
+                <p>Pending Today</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon summary-danger">
+
+                <i class="bi bi-fire"></i>
+
+            </div>
+
+            <div class="dashboard-stats">
+
+                <h3>@ViewBag.BestStreak</h3>
+
+                <p>Best Streak</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 
 @if (!Model.Any())
 {

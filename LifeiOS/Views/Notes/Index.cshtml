@@ -39,22 +39,14 @@
     </div>
 
     <div class="notes-filters">
+        <a asp-action="Index"
+           class="btn btn-secondary-custom">
 
-        @* <select name="category"
-                class="form-select-custom">
+            <i class="bi bi-arrow-counterclockwise me-2"></i>
 
-            <option value="">All Categories</option>
+            Reset
 
-            <option value="Personal">Personal</option>
-            <option value="Work">Work</option>
-            <option value="Business">Business</option>
-            <option value="Learning">Learning</option>
-            <option value="Ideas">Ideas</option>
-            <option value="Finance">Finance</option>
-            <option value="Health">Health</option>
-            <option value="Other">Other</option>
-
-        </select> *@
+        </a>
 
         <select name="sortOrder"
                 class="form-select-custom">
@@ -72,20 +64,11 @@
             <option value="category_desc">Category (Z-A)</option>
 
         </select>
-
-        <a asp-action="Index"
-           class="btn-custom btn-secondary-custom">
-
-            <i class="bi bi-arrow-counterclockwise me-2"></i>
-
-            Reset
-
-        </a>
-
     </div>
 
 </form>
-<div class="category-chips mb-4">
+
+<div class="category-chips">
 
     <a asp-action="Index"
        asp-route-searchString="@ViewBag.SearchString"

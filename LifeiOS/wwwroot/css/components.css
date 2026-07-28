@@ -291,6 +291,7 @@ textarea.form-control-custom {
 
 .dashboard-card {
     display: flex;
+    border: 1px solid #e5e7eb;
     align-items: center;
     gap: 16px;
     background: #fff;
@@ -298,16 +299,14 @@ textarea.form-control-custom {
     padding: 18px;
     height: 90px;
     box-shadow: 0 5px 15px rgba(0,0,0,.05);
-    transition: .25s;
+    transition: all .3s ease;
 }
 
     .dashboard-card:hover {
-        transform: translateY(-3px);
-    }
-
-    .dashboard-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 25px rgba(0,0,0,.08);
+/*        border: 0.5px solid #2563eb;*/
+        border-color: #2563eb;
+        box-shadow: 0 12px 28px rgba(37,99,235,.15);
+        transform: translateY(-6px);
     }
 
 .dashboard-card-icon {
@@ -357,6 +356,7 @@ textarea.form-control-custom {
     border-radius: 15px;
     transition: var(--transition);
     color: var(--text);
+    transition: all .25s ease;
 }
 
     .quick-action:hover {
@@ -749,7 +749,6 @@ textarea.form-control-custom {
     margin-right: 3px;
     color: var(--primary);
 }
-
 .dashboard-statss h3 {
     font-size: 2rem;
     font-weight: 700;

@@ -56,71 +56,6 @@
     </div>
 
 </form>
-
-<div class="row g-3 mb-4">
-
-    <div class="col-md-3">
-        <div class="dashboard-card">
-
-            <div class="dashboard-card-icon">
-                <i class="bi bi-bullseye"></i>
-            </div>
-
-            <div class="dashboard-stats">
-                <h3>@ViewBag.TotalGoals</h3>
-                <p>Total Goals</p>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="dashboard-card">
-
-            <div class="dashboard-card-icon text-success">
-                <i class="bi bi-check-circle"></i>
-            </div>
-
-            <div class="dashboard-stats">
-                <h3>@ViewBag.CompletedGoals</h3>
-                <p>Completed</p>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="dashboard-card">
-
-            <div class="dashboard-card-icon text-warning">
-                <i class="bi bi-hourglass-split"></i>
-            </div>
-
-            <div class="dashboard-stats">
-                <h3>@ViewBag.InProgressGoals</h3>
-                <p>In Progress</p>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="dashboard-card">
-
-            <div class="dashboard-card-icon text-danger">
-                <i class="bi bi-exclamation-circle"></i>
-            </div>
-
-            <div class="dashboard-stats">
-                <h3>@ViewBag.OverdueGoals</h3>
-                <p>Overdue</p>
-            </div>
-
-        </div>
-    </div>
-
-</div>
-
 <div class="category-chips mb-4">
 
     <a asp-action="Index"
@@ -159,6 +94,72 @@
     </a>
 
 </div>
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon summary-primary">
+                <i class="bi bi-bullseye"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h3>@ViewBag.TotalGoals</h3>
+                <p>Total Goals</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon summary-success">
+                <i class="bi bi-check-circle"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h3>@ViewBag.CompletedGoals</h3>
+                <p>Completed</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon summary-warning">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h3>@ViewBag.InProgressGoals</h3>
+                <p>In Progress</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon summary-danger">
+                <i class="bi bi-exclamation-circle"></i>
+            </div>
+
+            <div class="dashboard-stats">
+                <h3>@ViewBag.OverdueGoals</h3>
+                <p>Overdue</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
 
 @if (!Model.Any())
 {

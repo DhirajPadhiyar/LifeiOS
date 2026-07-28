@@ -78,7 +78,7 @@
     </div>
 
 </div>
-<div class="card-custom mt-30">
+<div class="card-custom mt-10">
 
     <div class="card-header-custom">
 
@@ -141,7 +141,7 @@
 
     <!-- Task Chart -->
 
-    <div class="card-custom">
+    <div class="card-custom dashboard-panel panel-primary">
 
         <div class="card-header-custom">
 
@@ -151,17 +151,15 @@
 
         </div>
 
-        <div class="card-body-custom">
-
+        <div class="dashboard-chart">
             <canvas id="taskChart"></canvas>
-
         </div>
 
     </div>
 
     <!-- Expense Chart -->
 
-    <div class="card-custom">
+    <div class="card-custom dashboard-panel panel-primary">
 
         <div class="card-header-custom">
 
@@ -171,10 +169,8 @@
 
         </div>
 
-        <div class="card-body-custom">
-
+        <div class="dashboard-chart">
             <canvas id="expenseChart"></canvas>
-
         </div>
 
     </div>
@@ -184,7 +180,7 @@
 
     <!-- Recent Tasks -->
 
-    <div class="card-custom">
+    <div class="card-custom dashboard-panel panel-primary">
 
         <div class="card-header-custom">
 
@@ -242,7 +238,7 @@
 
     <!-- Latest Notes -->
 
-    <div class="card-custom">
+    <div class="card-custom dashboard-panel panel-primary">
 
         <div class="card-header-custom">
 
@@ -292,7 +288,7 @@
 
     <!-- Goal Progress -->
 
-    <div class="card-custom">
+    <div class="card-custom dashboard-panel panel-primary">
 
         <div class="card-header-custom">
 
@@ -336,7 +332,10 @@
                         }
                         <div class="progress-bar-custom">
 
-                            <div class="progress-fill"
+                            <div class="progress-fill
+                                @(goal.Progress >= 80 ? "progress-success"
+                                 : goal.Progress >= 40 ? "progress-warning"
+                                 : "progress-danger")"
                                  style="width:@goal.Progress%;">
                             </div>
 
@@ -376,7 +375,7 @@
 
     <!-- Today's Schedule -->
 
-    <div class="card-custom">
+    <div class="card-custom dashboard-panel panel-primary">
 
         <div class="card-header-custom">
 

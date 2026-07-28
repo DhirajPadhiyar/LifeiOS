@@ -56,7 +56,7 @@ namespace LifeiOS.Controllers
                 // Goal Progress
                 Goals = await _context.Goals
                     .OrderByDescending(x => x.CreatedAt)
-                    .Take(4)
+                    .Take(3)
                     .ToListAsync(),
 
                 // Today's Events
