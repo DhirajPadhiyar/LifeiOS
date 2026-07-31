@@ -24,7 +24,8 @@
         <input asp-for="LastCompletedDate" type="hidden" />
 
         <div asp-validation-summary="ModelOnly"
-             class="text-danger mb-3">
+             class="alert alert-danger"
+             role="alert">
         </div>
 
         <div class="mb-3">
@@ -34,10 +35,11 @@
             </label>
 
             <input asp-for="Name"
-                   class="form-control-custom" />
+                   class="form-control-custom"
+                   placeholder="Enter habit name" />
 
             <span asp-validation-for="Name"
-                  class="text-danger">
+                  class="text-danger small">
             </span>
 
         </div>
@@ -54,7 +56,7 @@
             </select>
 
             <span asp-validation-for="Frequency"
-                  class="text-danger">
+                  class="text-danger small">
             </span>
 
         </div>
@@ -72,7 +74,7 @@
             </textarea>
 
             <span asp-validation-for="Description"
-                  class="text-danger">
+                  class="text-danger small">
             </span>
 
         </div>
@@ -80,7 +82,7 @@
         <div class="d-flex gap-2">
 
             <button type="submit"
-                    class="btn btn-primary-custom">
+                    class="btn-custom btn-primary-custom">
 
                 <i class="bi bi-check-lg me-2"></i>
 

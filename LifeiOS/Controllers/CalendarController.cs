@@ -11,10 +11,12 @@ namespace LifeiOS.Controllers
     public class CalendarController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CalendarController> _logger;
 
-        public CalendarController(ApplicationDbContext context)
+        public CalendarController(ApplicationDbContext context, ILogger<CalendarController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Calendar
@@ -140,10 +142,19 @@ namespace LifeiOS.Controllers
             calendarEvent.CreatedAt = DateTime.Now;
 
             _context.CalendarEvents.Add(calendarEvent);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating calendar event.");
+                throw;
+            }
 
             TempData["ToastType"] = "success";
             TempData["ToastMessage"] = "Event created successfully.";
+            _logger.LogInformation("Event Created");
 
             return RedirectToAction(nameof(Index));
         }
@@ -198,6 +209,7 @@ namespace LifeiOS.Controllers
 
                 TempData["ToastType"] = "success";
                 TempData["ToastMessage"] = "Event updated successfully.";
+                _logger.LogInformation("Event Updated");
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -233,10 +245,19 @@ namespace LifeiOS.Controllers
             if (calendarEvent != null)
             {
                 _context.CalendarEvents.Remove(calendarEvent);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error while deleting calendar event.");
+                    throw;
+                }
 
                 TempData["ToastType"] = "delete";
                 TempData["ToastMessage"] = "Event deleted successfully.";
+                _logger.LogWarning("Event Deleted");
             }
 
             return RedirectToAction(nameof(Index));

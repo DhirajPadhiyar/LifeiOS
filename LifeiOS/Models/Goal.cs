@@ -7,13 +7,15 @@ namespace LifeiOS.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(150)]
+        [StringLength(150, MinimumLength = 3)]
         public string GoalTitle { get; set; } = string.Empty;
 
-        [MaxLength(500)]
+        [StringLength(500)]
+        [DataType(DataType.MultilineText)]
         public string? Description { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime TargetDate { get; set; }
 
         // Optional

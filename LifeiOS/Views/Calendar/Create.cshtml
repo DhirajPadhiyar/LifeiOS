@@ -18,18 +18,27 @@
 
         <form asp-action="Create" method="post">
 
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger"
+                 role="alert">
+            </div>
 
             <div class="mb-3">
                 <label asp-for="Title" class="form-label"></label>
-                <input asp-for="Title" class="form-control-custom" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <input asp-for="Title"
+                       class="form-control-custom"
+                       placeholder="Enter event title" />
+                <span asp-validation-for="Title" class="text-danger small"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="Description" class="form-label"></label>
-                <textarea asp-for="Description" rows="4" class="form-control-custom"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <textarea asp-for="Description"
+                          rows="4"
+                          class="form-control-custom"
+                          placeholder="Enter event description (optional)">
+</textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
             </div>
 
             <div class="row">
@@ -37,13 +46,13 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="StartDate" class="form-label"></label>
                     <input asp-for="StartDate" type="datetime-local" class="form-control-custom" />
-                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                    <span asp-validation-for="StartDate" class="text-danger small"></span>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label asp-for="EndDate" class="form-label"></label>
                     <input asp-for="EndDate" type="datetime-local" class="form-control-custom" />
-                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                    <span asp-validation-for="EndDate" class="text-danger small"></span>
                 </div>
 
             </div>
@@ -60,12 +69,12 @@
 
             <div class="d-flex gap-2">
 
-                <button type="submit" class="btn btn-primary-custom">
+                <button type="submit" class="btn-custom btn-primary-custom">
                     <i class="bi bi-check-circle"></i>
                     Save Event
                 </button>
 
-                <a asp-action="Index" class="btn btn-secondary-custom">
+                <a asp-action="Index" class="btn-custom btn-secondary-custom">
                     Cancel
                 </a>
 
@@ -76,8 +85,7 @@
     </div>
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
 }

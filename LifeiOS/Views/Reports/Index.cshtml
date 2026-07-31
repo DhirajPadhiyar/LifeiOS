@@ -1,0 +1,666 @@
+﻿@model LifeiOS.ViewModels.ReportViewModel
+
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">
+            Reports
+        </h2>
+
+        <p class="text-muted mb-0">
+            Track your productivity and performance.
+        </p>
+    </div>
+</div>
+
+<div class="dashboard-stats">
+
+    <div class="dashboard-summary-grid reports-summary-grid">
+
+        <!-- Completed Tasks -->
+
+        <div class="summary-card ">
+
+            <div class="summary-icon summary-success">
+                <i class="bi bi-check2-circle"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <h6>Completed Tasks</h6>
+
+                <h2>@Model.CompletedTasks</h2>
+
+            </div>
+
+        </div>
+
+        <!-- Pending Tasks -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon summary-warning">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <h6>Pending Tasks</h6>
+
+                <h2>@Model.PendingTasks</h2>
+
+            </div>
+
+        </div>
+
+        <!-- Notes -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon summary-primary">
+                <i class="bi bi-journal-text"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <h6>Total Notes</h6>
+
+                <h2>@Model.TotalNotes</h2>
+
+            </div>
+
+        </div>
+
+        <!-- Goals -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon summary-info">
+                <i class="bi bi-bullseye"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <h6>Total Goals</h6>
+
+                <h2>@Model.TotalGoals</h2>
+
+            </div>
+
+        </div>
+
+        <!-- Habits -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon summary-danger">
+                <i class="bi bi-activity"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <h6>Total Habits</h6>
+
+                <h2>@Model.TotalHabits</h2>
+
+            </div>
+
+        </div>
+
+        <!-- Goal Progress -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon summary-secondary">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <h6>Goal Progress</h6>
+
+                <h2>@Model.GoalProgress.ToString("0")%</h2>
+
+            </div>
+
+        </div>
+
+        <!-- Monthly Expense -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon summary-primary">
+                <i class="bi bi-wallet2"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <h6>Monthly Expense</h6>
+
+                <h2>₹@Model.MonthlyExpenses.ToString("N0")</h2>
+
+            </div>
+
+        </div>
+
+        <!-- Upcoming Events -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon summary-warning">
+                <i class="bi bi-calendar-event"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <h6>Upcoming Events</h6>
+
+                <h2>@Model.UpcomingEvents</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="dashboard-chart-grid mt-30">
+
+    <!-- Task Status -->
+
+    <div class="card-custom dashboard-panel panel-primary">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+                Task Status
+            </h3>
+
+            <p class="dashboard-subtitle">
+                Completed vs Pending Tasks
+            </p>
+
+        </div>
+
+        <div class="task-status-wrapper">
+
+            <div class="task-status-summary">
+
+                <div class="task-status-row">
+
+                    <div class="task-status-label">
+
+                        <span class="status-dot completed"></span>
+
+                        <span>Completed</span>
+
+                    </div>
+
+                    <span class="status-badge">
+
+                        @Model.CompletedTasks
+
+                    </span>
+
+                </div>
+
+                <div class="task-status-row">
+
+                    <div class="task-status-label">
+
+                        <span class="status-dot pending"></span>
+
+                        <span>Pending</span>
+
+                    </div>
+
+                    <span class="status-badge">
+
+                        @Model.PendingTasks
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-chart">
+
+                <canvas id="taskStatusChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Productivity -->
+
+    <div class="card-custom dashboard-panel panel-primary">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+                Productivity Overview
+            </h3>
+
+            <p class="dashboard-subtitle">
+                Overall LifeOS Statistics
+            </p>
+
+        </div>
+
+        <div class="dashboard-chart">
+
+            <canvas id="productivityChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+@section Scripts
+{
+    <script>
+        const taskStatusChart = document.getElementById('taskStatusChart');
+
+        new Chart(taskStatusChart, {
+
+        type: 'pie',
+
+        data: {
+
+        labels: ['Completed', 'Pending'],
+
+        datasets: [{
+
+        data: [
+
+        @Model.CompletedTasks,
+
+        @Model.PendingTasks
+
+        ],
+
+        backgroundColor: [
+
+        '#22C55E',
+
+        '#F59E0B'
+
+        ],
+
+        borderWidth: 0
+
+        }]
+
+        },
+
+        options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+              legend: {
+            display: false
+        }
+
+        }
+
+        }
+
+        });
+        const productivityChart = document.getElementById('productivityChart');
+
+        new Chart(productivityChart, {
+
+        type: 'bar',
+
+        data: {
+
+        labels: [
+
+        'Tasks',
+
+        'Notes',
+
+        'Goals',
+
+        'Habits'
+
+        ],
+
+        datasets: [{
+
+        label: 'Total',
+
+        data: [
+
+        @Model.CompletedTasks + @Model.PendingTasks,
+
+        @Model.TotalNotes,
+
+        @Model.TotalGoals,
+
+        @Model.TotalHabits
+
+        ],
+
+        backgroundColor: [
+
+        '#2563EB',
+
+        '#14B8A6',
+
+        '#F59E0B',
+
+        '#8B5CF6'
+
+        ],
+
+        borderRadius: 8,
+
+        maxBarThickness: 45
+
+        }]
+
+        },
+
+               options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                },
+
+                datalabels: {
+
+                    color: "#FFFFFF",
+
+                    backgroundColor: "#111827",
+
+                    borderRadius: 50,
+
+                    padding: {
+                        top: 8,
+                        bottom: 8,
+                        left: 10,
+                        right: 10
+                    },
+
+                    font: {
+                        size: 13,
+                        weight: "bold"
+                    },
+
+                    anchor: "end",
+
+                    align: "top",
+
+                    offset: 8,
+
+                    formatter: function (value) {
+                        return value;
+                    }
+
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        precision: 0
+
+                    }
+
+                }
+
+            }
+
+        },
+        plugins: [ChartDataLabels]
+
+        });
+    </script>
+}
+<div class="dashboard-widget-grid mt-30">
+
+    <!-- Goal Progress -->
+
+    <div class="card-custom panel-primary report-info-card">
+
+        <div class="card-header-custom dashboard-widget-header">
+
+            <h3 class="card-title-custom">
+                Goal Progress
+            </h3>
+
+            <p class="dashboard-subtitle">
+                Track the average progress of all your goals.
+            </p><br />
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <div class="progress-item">
+
+                <div class="progress-header">
+
+                    <span>Overall Progress</span>
+
+                    <span>@Model.GoalProgress.ToString("0")%</span>
+
+                </div>
+
+                <div class="progress-bar-custom">
+
+                    <div class="progress-fill
+                        @(Model.GoalProgress >= 80
+                                 ? "progress-success"
+                                 : Model.GoalProgress >= 40
+                                     ? "progress-warning"
+                                     : "progress-danger")"
+                         style="width:@Model.GoalProgress%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Habit Completion -->
+
+    <div class="card-custom panel-primary report-info-card">
+
+        <div class="card-header-custom dashboard-widget-header">
+
+            <h3 class="card-title-custom">
+                Today's Habit Completion
+            </h3>
+
+            <p class="dashboard-subtitle">
+                Track today's completed habits.
+            </p><br />
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <div class="progress-item">
+
+                <div class="progress-header">
+
+                    <span>Completion Rate</span>
+
+                    <span>@Model.HabitCompletion.ToString("0")%</span>
+
+                </div>
+
+                <div class="progress-bar-custom">
+
+                    <div class="progress-fill
+                        @(Model.HabitCompletion >= 80
+                                 ? "progress-success"
+                                 : Model.HabitCompletion >= 40
+                                     ? "progress-warning"
+                                     : "progress-danger")"
+                         style="width:@Model.HabitCompletion%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <!-- Monthly Expense -->
+
+    <div class="card-custom panel-primary report-info-card">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+                Monthly Expense
+            </h3>
+
+            <p class="dashboard-subtitle">
+                Total spending this month
+            </p>
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <div class="report-stat">
+
+                <div class="report-stat-icon expense-icon">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="report-stat-value">
+                        ₹@Model.MonthlyExpenses.ToString("N0")
+                    </h2>
+
+                    <p class="report-stat-text">
+                        Current Month
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Upcoming Events -->
+
+    <div class="card-custom panel-primary report-info-card">
+
+        <div class="card-header-custom">
+
+            <h3 class="card-title-custom">
+                Upcoming Events
+            </h3>
+
+            <p class="dashboard-subtitle">
+                Scheduled future events
+            </p>
+
+        </div>
+
+        <div class="card-body-custom">
+
+            <div class="report-stat">
+
+                <div class="report-stat-icon event-icon">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="report-stat-value">
+                        @Model.UpcomingEvents
+                    </h2>
+
+                    <p class="report-stat-text">
+                        Upcoming Events
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="card-custom dashboard-panel panel-primary mt-30">
+
+    <div class="card-header-custom">
+
+        <h3 class="card-title-custom">
+            Productivity Score
+        </h3>
+
+        <p class="dashboard-subtitle">
+            Overall performance based on your activities
+        </p>
+
+    </div>
+
+    <div class="card-body-custom">
+
+        <div class="productivity-score">
+
+            <div class="score-circle">
+
+                <span>@Model.ProductivityScore</span>
+
+            </div>
+
+            <div class="score-details">
+
+                <h2>@Model.ProductivityLevel</h2>
+
+                <p>
+                    Your overall productivity score is
+                    <strong>@Model.ProductivityScore / 100</strong>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

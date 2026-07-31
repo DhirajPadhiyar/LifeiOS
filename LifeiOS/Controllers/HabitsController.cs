@@ -10,10 +10,12 @@ namespace LifeiOS.Controllers
     public class HabitsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<HabitsController> _logger;
 
-        public HabitsController(ApplicationDbContext context)
+        public HabitsController(ApplicationDbContext context, ILogger<HabitsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         private static DateTime GetStartOfWeek(DateTime date)
         {
@@ -55,10 +57,25 @@ namespace LifeiOS.Controllers
 
             _context.Habits.Add(habit);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Error while creating habit.");
+
+                throw;
+            }
 
             TempData["ToastMessage"] = "Habit created successfully.";
             TempData["ToastType"] = "success";
+            _logger.LogInformation(
+    "Habit Created. Id={Id}, Name={Name}",
+    habit.Id,
+    habit.Name);
 
             return RedirectToAction(nameof(Index));
         }
@@ -216,6 +233,9 @@ namespace LifeiOS.Controllers
                 {
                     TempData["ToastMessage"] = "Habit already completed today.";
                     TempData["ToastType"] = "info";
+                    _logger.LogInformation(
+    "Habit Completed. Id={Id}",
+    habit.Id);
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -290,10 +310,24 @@ namespace LifeiOS.Controllers
             {
                 _context.Update(habit);
 
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(
+                        ex,
+                        "Error while updating habit.");
+
+                    throw;
+                }
 
                 TempData["ToastMessage"] = "Habit updated successfully.";
                 TempData["ToastType"] = "info";
+                _logger.LogInformation(
+    "Habit Updated. Id={Id}",
+    habit.Id);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -354,10 +388,24 @@ namespace LifeiOS.Controllers
             {
                 _context.Habits.Remove(habit);
 
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(
+                        ex,
+                        "Error while deleting habit.");
+
+                    throw;
+                }
 
                 TempData["ToastMessage"] = "Habit deleted successfully.";
                 TempData["ToastType"] = "delete";
+                _logger.LogWarning(
+    "Habit Deleted. Id={Id}",
+    habit.Id);
             }
 
             return RedirectToAction(nameof(Index));

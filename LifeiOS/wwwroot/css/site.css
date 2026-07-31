@@ -761,3 +761,216 @@ small {
         outline: none;
         background: transparent;
     }
+/* Reports Page Only */
+.reports-summary-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1200px) {
+    .reports-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .reports-summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* ==========================
+   Reports - Task Status
+========================== */
+
+.task-status-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.task-status-summary {
+    min-width: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+}
+
+.task-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.task-status-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+    .status-dot.completed {
+        background: #22C55E;
+    }
+
+    .status-dot.pending {
+        background: #F59E0B;
+    }
+
+.status-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #111827;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(17, 24, 39, 0.18);
+}
+.task-status-wrapper .dashboard-chart {
+    flex: 1;
+    max-width: 320px;
+    margin: 0 auto;
+}
+/* Reports Widget Header */
+
+.dashboard-widget-header {
+    display: block !important;
+    margin-bottom: 24px;
+}
+
+    .dashboard-widget-header .card-title-custom {
+        margin-bottom: 8px;
+        font-size: 1.85rem;
+        line-height: 1.25;
+    }
+
+    .dashboard-widget-header .dashboard-subtitle {
+        margin: 0;
+        font-size: 0.95rem;
+        color: #6B7280;
+        line-height: 1.6;
+        max-width: 100%;
+    }
+.dashboard-mini-card {
+    height: auto;
+    min-height: 220px;
+}
+
+    .dashboard-mini-card .card-body-custom {
+        padding-top: 0;
+        flex:unset;
+    }
+
+    .dashboard-mini-card .progress-item {
+        margin-top: 10px;
+    }
+    .dashboard-mini-card .dashboard-widget-header {
+        margin-bottom: 18px;
+    }
+.report-stat {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 140px;
+}
+
+.report-stat-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    flex-shrink: 0;
+}
+
+.expense-icon {
+    background: rgba(37,99,235,.12);
+    color: #2563EB;
+}
+
+.event-icon {
+    background: rgba(249,115,22,.12);
+    color: #F97316;
+}
+
+.report-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.report-stat-text {
+    margin: 0;
+    color: #6B7280;
+    font-size: .95rem;
+}
+.report-info-card {
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+}
+
+    .report-info-card .card-body-custom {
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+/*=========================================
+    Productivity Score
+=========================================*/
+
+.productivity-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    min-height: 320px;
+}
+
+.score-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#2563EB,#3B82F6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 15px 35px rgba(37,99,235,.25);
+}
+
+.score-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .score-details h2 {
+        margin-bottom: 10px;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .score-details p {
+        margin: 0;
+        color: #6B7280;
+        font-size: 16px;
+        line-height: 1.7;
+    }

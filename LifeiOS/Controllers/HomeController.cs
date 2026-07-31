@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using LifeiOS.Data;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace LifeiOS.Controllers
 {
@@ -27,11 +28,22 @@ namespace LifeiOS.Controllers
         {
             return View();
         }
-        [AllowAnonymous]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //[AllowAnonymous]
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        ////public IActionResult Error()
+        ////{
+        ////    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        ////}
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
+        }
+
+        public IActionResult ErrorStatus(int code)
+        {
+            ViewBag.StatusCode = code;
+
+            return View("Error");
         }
     }
 }

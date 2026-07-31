@@ -32,7 +32,8 @@
     <form asp-action="Create" method="post">
 
         <div asp-validation-summary="ModelOnly"
-             class="text-danger mb-4">
+             class="alert alert-danger"
+             role="alert">
         </div>
 
         <div class="row">
@@ -49,7 +50,7 @@
                        placeholder="Enter habit name" />
 
                 <span asp-validation-for="Name"
-                      class="text-danger">
+                      class="text-danger small">
                 </span>
 
             </div>
@@ -68,7 +69,7 @@
                 </select>
 
                 <span asp-validation-for="Frequency"
-                      class="text-danger">
+                      class="text-danger small">
                 </span>
 
             </div>
@@ -90,7 +91,7 @@
             </textarea>
 
             <span asp-validation-for="Description"
-                  class="text-danger">
+                  class="text-danger small">
             </span>
 
         </div>
@@ -100,7 +101,7 @@
         <div class="d-flex gap-2">
 
             <button type="submit"
-                    class="btn btn-primary-custom">
+                    class="btn-custom btn-primary-custom">
 
                 <i class="bi bi-check-circle me-2"></i>
 
@@ -109,7 +110,7 @@
             </button>
 
             <a asp-action="Index"
-               class="btn btn-secondary-custom">
+               class="btn-custom btn-secondary-custom">
 
                 Cancel
 
@@ -121,9 +122,6 @@
 
 </div>
 
-@section Scripts
-{
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

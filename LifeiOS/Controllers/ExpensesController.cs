@@ -10,10 +10,12 @@ namespace LifeiOS.Controllers
     public class ExpensesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<ExpensesController> _logger;
 
-        public ExpensesController(ApplicationDbContext context)
+        public ExpensesController(ApplicationDbContext context, ILogger<ExpensesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Expenses
@@ -138,11 +140,20 @@ namespace LifeiOS.Controllers
 
             _context.Add(expense);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating expense.");
+                throw;
+            }
 
             TempData["ToastMessage"] = "Expense added successfully.";
 
             TempData["ToastType"] = "success";
+            _logger.LogInformation("Expense Added");
 
             return RedirectToAction(nameof(Index));
         }
@@ -181,11 +192,20 @@ namespace LifeiOS.Controllers
 
             _context.Update(expense);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while updating expense.");
+                throw;
+            }
 
             TempData["ToastMessage"] = "Expense updated successfully.";
 
             TempData["ToastType"] = "info";
+            _logger.LogInformation("Expense Updated");
 
             return RedirectToAction(nameof(Index));
         }
@@ -237,11 +257,20 @@ namespace LifeiOS.Controllers
             {
                 _context.Expenses.Remove(expense);
 
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error while deleting expense.");
+                    throw;
+                }
 
                 TempData["ToastMessage"] = "Expense deleted successfully.";
 
                 TempData["ToastType"] = "success";
+                _logger.LogWarning("Expense Deleted");
             }
 
             return RedirectToAction(nameof(Index));

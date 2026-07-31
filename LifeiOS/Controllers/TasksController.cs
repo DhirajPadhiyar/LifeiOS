@@ -10,9 +10,11 @@ namespace LifeiOS.Controllers
     public class TasksController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public TasksController(ApplicationDbContext context)
+        private readonly ILogger<TasksController> _logger;
+        public TasksController(ApplicationDbContext context, ILogger<TasksController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         public async Task<IActionResult> Index(
     string? searchTerm,
@@ -130,10 +132,26 @@ namespace LifeiOS.Controllers
 
             _context.TaskItems.Add(task);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Error while creating task.");
+
+                throw;
+            }
 
             TempData["ToastType"] = "success";
             TempData["ToastMessage"] = "Task created successfully.";
+
+            _logger.LogInformation(
+    "Task Created. Id={Id}, Title={Title}",
+    task.Id,
+    task.Title);
 
             return RedirectToAction(nameof(Index));
         }
@@ -198,10 +216,24 @@ namespace LifeiOS.Controllers
             existingTask.IsCompleted = task.IsCompleted;
             existingTask.UpdatedAt = DateTime.Now;
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Error while updating task.");
+
+                throw;
+            }
 
             TempData["ToastType"] = "info";
             TempData["ToastMessage"] = "Task updated successfully.";
+            _logger.LogInformation(
+    "Task Updated. Id={Id}",
+    task.Id);
 
             return RedirectToAction(nameof(Index));
         }
@@ -251,12 +283,26 @@ namespace LifeiOS.Controllers
             task.IsCompleted = !task.IsCompleted;
             task.UpdatedAt = DateTime.Now;
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Error while toggling task completion.");
+
+                throw;
+            }
 
             TempData["ToastType"] = "info";
             TempData["ToastMessage"] = task.IsCompleted
                 ? "Task marked as completed."
                 : "Task marked as pending.";
+            _logger.LogWarning(
+    "Task Deleted. Id={Id}",
+    task.Id);
 
             return RedirectToAction(nameof(Index));
         }

@@ -9,11 +9,13 @@ namespace LifeiOS.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -46,7 +48,12 @@ namespace LifeiOS.Controllers
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
+                _logger.LogInformation(
+    "User Registered : {Email}",
+    model.Email);
+
                 return RedirectToAction("Index", "Home");
+
             }
 
             foreach (var error in result.Errors)
@@ -84,10 +91,17 @@ namespace LifeiOS.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation(
+"User Logged In : {Email}",
+model.Email);
                 return RedirectToAction("Index", "Dashboard");
+
             }
 
             ModelState.AddModelError(string.Empty, "Invalid email or password.");
+            _logger.LogWarning(
+    "Failed Login Attempt : {Email}",
+    model.Email);
 
             return View(model);
         }
@@ -97,7 +111,11 @@ namespace LifeiOS.Controllers
         {
             await _signInManager.SignOutAsync();
 
+            _logger.LogInformation(
+    "User Logged Out");
+
             return RedirectToAction(nameof(Login));
+
         }
     }
 }

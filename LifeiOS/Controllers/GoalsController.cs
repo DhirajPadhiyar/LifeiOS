@@ -1,4 +1,4 @@
-﻿using LifeiOS.Data;
+﻿    using LifeiOS.Data;
 using LifeiOS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +10,12 @@ namespace LifeiOS.Controllers
     public class GoalsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<GoalsController> _logger;
 
-        public GoalsController(ApplicationDbContext context)
+        public GoalsController(ApplicationDbContext context, ILogger<GoalsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index(
@@ -124,10 +126,22 @@ namespace LifeiOS.Controllers
                 goal.CreatedAt = DateTime.Now;
 
                 _context.Add(goal);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(
+                        ex,
+                        "Error while creating Goal.");
+
+                    throw;
+                }
 
                 TempData["ToastMessage"] = "Goal created successfully.";
                 TempData["ToastType"] = "success";
+                _logger.LogInformation("Goal Created");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -216,6 +230,7 @@ namespace LifeiOS.Controllers
 
                 TempData["ToastMessage"] = "Goal updated successfully.";
                 TempData["ToastType"] = "info";
+                _logger.LogInformation("Goal Updated");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -251,10 +266,19 @@ namespace LifeiOS.Controllers
             if (goal != null)
             {
                 _context.Goals.Remove(goal);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error while deleting goal.");
+                    throw;
+                }
 
                 TempData["ToastMessage"] = "Goal deleted successfully.";
                 TempData["ToastType"] = "delete";
+                _logger.LogWarning("Goal Deleted");
             }
 
             return RedirectToAction(nameof(Index));

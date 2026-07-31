@@ -8,7 +8,7 @@ namespace LifeiOS.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(150)]
+        [StringLength(150, MinimumLength = 3)]
         public string Title { get; set; } = string.Empty;
 
         [Required]
@@ -17,13 +17,15 @@ namespace LifeiOS.Models
         public decimal Amount { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string Category { get; set; } = string.Empty;
 
-        [MaxLength(500)]
+        [StringLength(500)]
+        [DataType(DataType.MultilineText)]
         public string? Notes { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime ExpenseDate { get; set; } = DateTime.Today;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;

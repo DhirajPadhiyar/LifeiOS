@@ -6,11 +6,13 @@ namespace LifeiOS.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(150)]
+        [Required(ErrorMessage = "Title is required.")]
+        [StringLength(150, MinimumLength = 3)]
         public string Title { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "Content is required.")]
+        [StringLength(5000)]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; } = string.Empty;
 
         [StringLength(50)]

@@ -10,10 +10,12 @@ namespace LifeiOS.Controllers
     public class NotesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<NotesController> _logger;
 
-        public NotesController(ApplicationDbContext context)
+        public NotesController(ApplicationDbContext context, ILogger<NotesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         public async Task<IActionResult> Index(
      string? searchString,
@@ -92,10 +94,19 @@ namespace LifeiOS.Controllers
 
             _context.Add(note);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating note.");
+                throw;
+            }
 
             TempData["ToastMessage"] = "Note created successfully.";
             TempData["ToastType"] = "success";
+            _logger.LogInformation("Note Created");
 
             return RedirectToAction(nameof(Index));
         }
@@ -135,6 +146,7 @@ namespace LifeiOS.Controllers
 
                 TempData["ToastMessage"] = "Note updated successfully.";
                 TempData["ToastType"] = "info";
+                _logger.LogInformation("Note Updated");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -192,10 +204,19 @@ namespace LifeiOS.Controllers
             {
                 _context.Notes.Remove(note);
 
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error while deleting note.");
+                    throw;
+                }
 
                 TempData["ToastMessage"] = "Note deleted successfully.";
                 TempData["ToastType"] = "delete";
+                _logger.LogWarning("Note Deleted");
             }
 
             return RedirectToAction(nameof(Index));
