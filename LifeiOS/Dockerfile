@@ -9,10 +9,7 @@ RUN dotnet restore "LifeiOS.csproj"
 
 COPY . .
 
-RUN dotnet publish "LifeiOS.csproj" \
-    -c Release \
-    -o /app/publish \
-    /p:UseAppHost=false
+RUN dotnet publish "LifeiOS.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 
 # Runtime stage
