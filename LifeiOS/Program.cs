@@ -3,8 +3,12 @@ using LifeiOS.Data;
 using LifeiOS.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -39,7 +43,10 @@ else
 // Handle 404, 403, 401 etc.
 app.UseStatusCodePagesWithReExecute("/Home/ErrorStatus", "?code={0}");
 
-app.UseHttpsRedirection();
+if (Environment.GetEnvironmentVariable("RENDER") != "true")
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseStaticFiles();
 
