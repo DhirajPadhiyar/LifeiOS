@@ -208,6 +208,11 @@ namespace LifeiOS.Controllers
                 ? await _context.Habits.MaxAsync(h => h.CurrentStreak)
                 : 0;
 
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("_HabitList", habits);
+            }
+                
             return View(habits);
         }
         // POST: Habits/CompleteToday/5
@@ -219,7 +224,11 @@ namespace LifeiOS.Controllers
 
             if (habit == null)
             {
-                return NotFound();
+                return Json(new
+                {
+                    success = false,
+                    message = "Habit not found."
+                });
             }
 
             // Already completed today
@@ -231,13 +240,15 @@ namespace LifeiOS.Controllers
                 if (habit.LastCompletedDate.HasValue &&
                     habit.LastCompletedDate.Value.Date == DateTime.Today)
                 {
-                    TempData["ToastMessage"] = "Habit already completed today.";
-                    TempData["ToastType"] = "info";
                     _logger.LogInformation(
     "Habit Completed. Id={Id}",
     habit.Id);
 
-                    return RedirectToAction(nameof(Index));
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Habit already completed today."
+                    });
                 }
             }
             else
@@ -245,10 +256,11 @@ namespace LifeiOS.Controllers
                 if (habit.LastCompletedDate.HasValue &&
                     habit.LastCompletedDate.Value.Date >= weekStart)
                 {
-                    TempData["ToastMessage"] = "Habit already completed this week.";
-                    TempData["ToastType"] = "info";
-
-                    return RedirectToAction(nameof(Index));
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Habit already completed this week."
+                    });
                 }
             }
 
@@ -269,10 +281,13 @@ namespace LifeiOS.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["ToastMessage"] = "Habit completed successfully.";
-            TempData["ToastType"] = "success";
-
-            return RedirectToAction(nameof(Index));
+            return Json(new
+            {
+                success = true,
+                message = "Habit completed successfully.",
+                streak = habit.CurrentStreak,
+                completedDate = habit.LastCompletedDate?.ToString("dd MMM yyyy")
+            });
         }
         // GET: Habits/Edit/5
         public async Task<IActionResult> Edit(int? id)

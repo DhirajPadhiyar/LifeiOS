@@ -154,7 +154,7 @@
 
             <div class="dashboard-stats">
 
-                <h3>@ViewBag.CompletedToday</h3>
+                <h3 id="completed-today-count">@ViewBag.CompletedToday</h3>
 
                 <p>Completed Today</p>
 
@@ -176,7 +176,7 @@
 
             <div class="dashboard-stats">
 
-                <h3>@ViewBag.PendingToday</h3>
+                <h3 id="pending-today-count">@ViewBag.PendingToday</h3>
 
                 <p>Pending Today</p>
 
@@ -198,7 +198,7 @@
 
             <div class="dashboard-stats">
 
-                <h3>@ViewBag.BestStreak</h3>
+                <h3 id="best-streak-count">@ViewBag.BestStreak</h3>
 
                 <p>Best Streak</p>
 
@@ -210,334 +210,279 @@
 
 </div>
 
+<div id="habit-list-container">
 
+    @await Html.PartialAsync(
+        "_HabitList",
+        Model
+    )
 
-@if (!Model.Any())
-{
-    <div class="card-custom text-center py-5">
+</div>
 
-        <i class="bi bi-list-check display-1 text-muted"></i>
 
-        <h4 class="mt-4 fw-bold">
-            No Habits Found
-        </h4>
+<script>
 
-        <p class="text-muted mb-4">
-            Create your first habit and start building better daily routines.
-        </p>
+    document.addEventListener("click", async function (event) {
 
-        <a asp-action="Create"
-           class="btn btn-primary-custom">
+        const button = event.target.closest(".complete-habit-btn");
 
-            <i class="bi bi-plus-lg me-2"></i>
-
-            Create First Habit
-
-        </a>
-
-    </div>
-}
-else
-{
-    <div class="row g-4">
-
-        @foreach (var habit in Model)
-        {
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card-custom habit-card h-100 d-flex flex-column
-                    @(habit.LastCompletedDate?.Date == DateTime.Today ? "completed-habit" : "")">
-
-                    <!-- Header -->
-
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-
-                        <div>
-
-                            <h5 class="fw-bold mb-1">
-
-                                @habit.Name
-
-                            </h5>
-
-                            @if (habit.Frequency == HabitFrequency.Daily)
-                            {
-                                <span class="badge bg-success">
-                                    <i class="bi bi-calendar-day me-1"></i>
-                                    Daily
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-warning text-dark">
-                                    <i class="bi bi-calendar-week me-1"></i>
-                                    Weekly
-                                </span>
-                            }
-
-                        </div>
-
-                        <div class="dropdown">
-
-                            <button class="action-menu-btn"
-                                    type="button"
-                                    data-bs-toggle="dropdown">
-
-                                <i class="bi bi-three-dots-vertical"></i>
-
-                            </button>
-
-                            <ul class="dropdown-menu dropdown-menu-end action-dropdown">
-
-                                <li>
-
-                                    <a class="dropdown-item"
-                                       asp-action="Details"
-                                       asp-route-id="@habit.Id">
-
-                                        <i class="bi bi-eye me-2"></i>
-
-                                        View
-
-                                    </a>
-
-                                </li>
-
-                                <li>
-
-                                    <a class="dropdown-item"
-                                       asp-action="Edit"
-                                       asp-route-id="@habit.Id">
-
-                                        <i class="bi bi-pencil me-2"></i>
-
-                                        Edit
-
-                                    </a>
-
-                                </li>
-
-                                <li>
-
-                                    <a class="dropdown-item text-danger"
-                                       asp-action="Delete"
-                                       asp-route-id="@habit.Id">
-
-                                        <i class="bi bi-trash me-2"></i>
-
-                                        Delete
-
-                                    </a>
-
-                                </li>
-
-                            </ul>
-
-                        </div>
-
-                    </div>
-                    @if (!string.IsNullOrWhiteSpace(habit.Description))
-                    {
-                        <p class="text-muted flex-grow-1">
-
-                            @habit.Description
-
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="text-muted flex-grow-1">
-
-                            No description added yet.
-
-                        </p>
-                    }
-                    <hr />
-
-                    <div class="small">
-
-                        <div class="d-flex justify-content-between mb-2">
-
-                            <span class="text-muted">
-
-                                Current Streak
-
-                            </span>
-
-                            <span class="badge bg-danger">
-
-                                🔥 @habit.CurrentStreak Day Streak
-
-                            </span>
-
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-
-                            <span class="text-muted">
-
-                                Last Completed
-
-                            </span>
-
-                            @{
-                                var weekStart = DateTime.Today.AddDays(-((7 + (DateTime.Today.DayOfWeek - DayOfWeek.Monday)) % 7));
-                            }
-
-                            @if (habit.LastCompletedDate == null)
-                            {
-                                <span class="text-muted">
-                                    Never
-                                </span>
-                            }
-                            else if (habit.Frequency == HabitFrequency.Daily)
-                            {
-                                if (habit.LastCompletedDate.Value.Date == DateTime.Today)
-                                {
-                                    <span class="badge bg-success">
-                                        Today
-                                    </span>
-                                }
-                                else if (habit.LastCompletedDate.Value.Date == DateTime.Today.AddDays(-1))
-                                {
-                                    <span class="badge bg-warning text-dark">
-                                        Yesterday
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        @habit.LastCompletedDate.Value.ToString("dd MMM yyyy")
-                                    </span>
-                                }
-                            }
-                            else
-                            {
-                                if (habit.LastCompletedDate.Value.Date >= weekStart)
-                                {
-                                    <span class="badge bg-success">
-                                        This Week
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        @habit.LastCompletedDate.Value.ToString("dd MMM yyyy")
-                                    </span>
-                                }
-                            }
-
-                        </div>
-
-                    </div>
-                    <div class="mt-4">
-
-                        @{
-                            bool isCompleted = habit.Frequency == HabitFrequency.Daily
-                                ? habit.LastCompletedDate?.Date == DateTime.Today
-                                : habit.LastCompletedDate.HasValue &&
-                                  habit.LastCompletedDate.Value.Date >= weekStart;
-                        }
-
-                        @if (isCompleted)
-                        {
-                            <button class="btn btn-success-custom w-100" disabled>
-
-                                <i class="bi bi-check-circle-fill me-2"></i>
-
-                                @(habit.Frequency == HabitFrequency.Daily
-                                    ? "Completed Today"
-                                    : "Completed This Week")
-
-                            </button>
-                        }
-                        else
-                        {
-                            <form asp-action="CompleteToday"
-                                  asp-route-id="@habit.Id"
-                                  method="post">
-
-                                @Html.AntiForgeryToken()
-
-                                <button type="submit"
-                                        class="btn btn-primary-custom w-100">
-
-                                    <i class="bi bi-check-circle me-2"></i>
-
-                                    @(habit.Frequency == HabitFrequency.Daily
-                                        ? "Complete Today"
-                                        : "Complete This Week")
-
-                                </button>
-
-                            </form>
-                        }
-
-                    </div>
-                </div>
-
-            </div>
+        if (!button) {
+            return;
         }
 
-    </div>
-}
+            const habitId = button.dataset.id;
+            const frequency = button.dataset.frequency;
 
-@if (ViewBag.TotalPages > 1)
-{
-    <nav class="mt-4">
-
-        <ul class="pagination justify-content-center">
-
-            <!-- Previous -->
-
-            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-page="@(ViewBag.CurrentPage - 1)"
-                   asp-route-searchString="@ViewBag.SearchString"
-                   asp-route-status="@ViewBag.Status">
-
-                    Previous
-
-                </a>
-
-            </li>
-
-            @for (int i = 1; i <= ViewBag.TotalPages; i++)
-            {
-                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-
-                    <a class="page-link"
-                       asp-action="Index"
-                       asp-route-page="@i"
-                       asp-route-searchString="@ViewBag.SearchString"
-                       asp-route-status="@ViewBag.Status">
-
-                        @i
-
-                    </a>
-
-                </li>
+            // Prevent double click
+            if (button.disabled) {
+                return;
             }
 
-            <!-- Next -->
+            // Save original button content
+            const originalButtonContent = button.innerHTML;
 
-            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            // Loading state
+            button.disabled = true;
 
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-page="@(ViewBag.CurrentPage + 1)"
-                   asp-route-searchString="@ViewBag.SearchString"
-                   asp-route-status="@ViewBag.Status">
+            button.innerHTML =
+                `<span class="spinner-border spinner-border-sm me-2"
+                       role="status"
+                       aria-hidden="true"></span>
+                 Completing...`;
 
-                    Next
+            const token = document.querySelector(
+                'input[name="__RequestVerificationToken"]'
+            ).value;
 
-                </a>
+            try {
 
-            </li>
+                const response = await fetch(
+                    `/Habits/CompleteToday/${habitId}`,
+                    {
+                        method: "POST",
 
-        </ul>
+                        headers: {
+                            "RequestVerificationToken": token
+                        }
+                    }
+                );
 
-    </nav>
-}
+                if (!response.ok) {
+                    throw new Error("Request failed.");
+                }
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(
+                        data.message || "Unable to complete habit."
+                    );
+                }
+
+                // --------------------------------
+                // 1. Update Button
+                // --------------------------------
+
+                button.classList.remove("btn-primary-custom");
+
+                button.classList.add("btn-success-custom");
+
+                button.innerHTML =
+                    `<i class="bi bi-check-circle-fill me-2"></i>
+                     ${frequency === "daily"
+                        ? "Completed Today"
+                        : "Completed This Week"}`;
+
+                button.disabled = true;
+
+
+                // --------------------------------
+                // 2. Update Streak
+                // --------------------------------
+
+                const streakElement =
+                    document.getElementById(`streak-${habitId}`);
+
+                if (streakElement) {
+
+                    streakElement.innerHTML =
+                        `🔥 ${data.streak} Day Streak`;
+
+                }
+
+
+                // --------------------------------
+                // 3. Update Last Completed
+                // --------------------------------
+
+                const completedElement =
+                    document.getElementById(`completed-${habitId}`);
+
+                if (completedElement) {
+
+                    completedElement.className =
+                        "badge bg-success";
+
+                    completedElement.innerHTML =
+                        frequency === "daily"
+                            ? "Today"
+                            : "This Week";
+
+                }
+
+
+                // --------------------------------
+                // 4. Update Card
+                // --------------------------------
+
+                const card =
+                    document.getElementById(`habit-card-${habitId}`);
+
+                if (card) {
+
+                    card.classList.add("completed-habit");
+
+                    const cardColumn = card.parentElement;
+
+                    const cardsContainer = cardColumn.parentElement;
+
+                    cardsContainer.appendChild(cardColumn);
+
+                }
+
+
+                // --------------------------------
+                // 5. Update Statistics
+                // --------------------------------
+
+                const completedTodayCount =
+                    document.getElementById("completed-today-count");
+
+                const pendingTodayCount =
+                    document.getElementById("pending-today-count");
+
+                const bestStreakCount =
+                    document.getElementById("best-streak-count");
+
+
+                if (completedTodayCount) {
+
+                    completedTodayCount.textContent =
+                        parseInt(completedTodayCount.textContent) + 1;
+
+                }
+
+
+                if (pendingTodayCount) {
+
+                    pendingTodayCount.textContent =
+                        Math.max(
+                            0,
+                            parseInt(pendingTodayCount.textContent) - 1
+                        );
+
+                }
+
+
+                if (bestStreakCount && data.streak) {
+
+                    const currentBest =
+                        parseInt(bestStreakCount.textContent);
+
+                    if (data.streak > currentBest) {
+
+                        bestStreakCount.textContent =
+                            data.streak;
+
+                    }
+
+                }
+
+            }
+              catch (error) {
+
+        console.error(
+            "Habit completion error:",
+            error
+        );
+
+        // Restore button
+        button.disabled = false;
+
+        button.innerHTML = originalButtonContent;
+
+        alert(
+            "Something went wrong. Please try again."
+        );
+
+    }
+
+    });
+
+</script>
+
+<script>
+
+    document.addEventListener("click", async function (event) {
+
+        const paginationLink =
+            event.target.closest(".habit-pagination-link");
+
+        if (!paginationLink) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const url = paginationLink.href;
+
+        const container =
+            document.getElementById("habit-list-container");
+
+        if (!container) {
+            return;
+        }
+
+        try {
+
+            container.style.opacity = "0.5";
+
+            const response = await fetch(url, {
+
+                method: "GET",
+
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+
+            });
+
+            if (!response.ok) {
+                throw new Error("Pagination request failed.");
+            }
+
+            const html = await response.text();
+
+            container.innerHTML = html;
+
+            container.style.opacity = "1";
+
+        }
+        catch (error) {
+
+            console.error(
+                "Pagination error:",
+                error
+            );
+
+            container.style.opacity = "1";
+
+            alert(
+                "Unable to load habits. Please try again."
+            );
+
+        }
+
+    });
+
+</script>

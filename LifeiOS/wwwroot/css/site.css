@@ -10,6 +10,7 @@
 :root {
     --primary: #2563EB;
     --success: #22C55E;
+    --sidebar: #FFFFFF;
     --danger: #EF4444;
     --warning: #F59E0B;
     --background: #F8FAFC;
@@ -20,6 +21,10 @@
     --sidebar-width: 260px;
     --radius: 10px;
     --transition: .3s ease;
+    --sidebar-hover: #EFF6FF;
+    --sidebar-active: #2563EB;
+    --navbar: #FFFFFF;
+    --sidebar-text: #475569;
 }
 
 /* ===========================
@@ -138,6 +143,7 @@ small {
     align-items: center;
     gap: 12px;
     margin-bottom: 2rem;
+    width: 380px;
 }
 
 .search-input {
@@ -973,4 +979,20 @@ small {
         color: #6B7280;
         font-size: 16px;
         line-height: 1.7;
+    }
+.profile-action-btn {
+    min-width: 160px;
+}
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+    .loading-overlay.show {
+        display: flex;
     }

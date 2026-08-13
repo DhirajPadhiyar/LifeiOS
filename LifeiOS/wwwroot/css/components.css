@@ -33,6 +33,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: .25s ease;
+    min-width: 100px;
 }
 
     .btn-primary-custom:hover {
@@ -254,6 +255,7 @@ textarea.form-control-custom {
     border-radius: 10px;
     font-weight: 600;
     transition: .3s;
+    min-width: 100px;
 }
 
     .btn-secondary-custom:hover {
