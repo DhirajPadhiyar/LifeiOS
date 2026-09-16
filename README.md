@@ -600,3 +600,8 @@ Add your preferred license here if you decide to make the project open source.
 ### LifeiOS
 
 **A simple system for managing the important parts of life.**
+
+---
+
+### Author
+Dhiraj Padhiyar
