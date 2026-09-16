@@ -291,7 +291,7 @@ namespace LifeiOS.Controllers
             {
                 _logger.LogError(
                     ex,
-                    "Error while toggling task completion.");
+                    "Error while toggling task completion."); 
 
                 throw;
             }
